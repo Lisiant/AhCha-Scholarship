@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <item
+        android:id="@+id/scholarshipFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_school_24"
+        android:title="장학금"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+
+    <item
+        android:id="@+id/outdoorFragment"
+        android:icon="@drawable/ic_baseline_emoji_events_24"
+        android:title="대외활동"
+        app:showAsAction="always" />
+
+
+    <item
+        android:id="@+id/favoriteFragment"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="MY"
+        app:showAsAction="always" />
+
+
+</menu>
