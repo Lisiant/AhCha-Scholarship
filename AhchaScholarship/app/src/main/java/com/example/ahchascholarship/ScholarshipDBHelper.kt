@@ -9,12 +9,13 @@ import android.graphics.Color
 import android.view.Gravity
 import android.widget.TableRow
 import android.widget.TextView
+import androidx.core.database.getStringOrNull
 
 class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 	companion object{ // 변수를 스테틱으로 만들어버려
 		val DB_NAME = "scholarship.db"
 		val DB_VERSION = 1
-		val TABLE_NAME = "products"
+		val TABLE_NAME = "scholarship"
 		val SNO = "번호"
 		val FOUNDATION = "운영기관명"
 		val S_NAME = "상품명"
@@ -37,64 +38,42 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		val RECOMMEND = "추천필요여부"
 		val PAPERWORK = "제출서류"
 	}
-	fun getAllRecord(){
+	fun getAllRecord():ArrayList<ScholarshipData>{
 		val strSql = "select * from $TABLE_NAME"
 		val db = readableDatabase
 		val cursor = db.rawQuery(strSql, null)
-		val tupleCount = cursor.columnCount
-		for(i in 0 until tupleCount){
-
+		val ret = ArrayList<ScholarshipData>()
+		cursor.moveToFirst()
+		while(!cursor.isAfterLast){
+			ret.add(
+				ScholarshipData(
+					cursor.getInt(0),
+					cursor.getString(0),
+					cursor.getString(1),
+					cursor.getString(2),
+					cursor.getString(3),
+					cursor.getString(4),
+					cursor.getString(5),
+					cursor.getString(6),
+					cursor.getString(7),
+					cursor.getString(8),
+					cursor.getString(9),
+					cursor.getString(10),
+					cursor.getString(11),
+					cursor.getString(12),
+					cursor.getString(13),
+					cursor.getString(14),
+					cursor.getString(15),
+					cursor.getString(16),
+					cursor.getString(17),
+					cursor.getString(18),
+					cursor.getString(19)
+				)
+			)
 		}
 		cursor.close()
 		db.close()
-	}
-	private fun showRecord(cursor: Cursor){
-		cursor.moveToFirst()
-		val attrcount = cursor.columnCount
-		val activity = context as MainActivity // 실행할 때 mainActivity의 context 정보를 넘겨 받음. 그걸로 tableLayout 접근
-		activity.binding.tableLayout.removeAllViewsInLayout() // 테이블 레이아웃의 모든 뷰를 지우고 타이틀부터 만들기
-		val tablerow = TableRow(activity)
-		val rowParam = TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT)
-		tablerow.layoutParams = rowParam
-		val viewParam = TableRow.LayoutParams(0, 100, 1f)
-		for(i in 0 until attrcount){
-			val textView = TextView(activity)
-			textView.layoutParams = viewParam
-			textView.text = cursor.getColumnName(i)
-			textView.setBackgroundColor(Color.LTGRAY)
-			textView.textSize = 15.0f
-			textView.gravity = Gravity.CENTER
-			tablerow.addView(textView)
-		}
-		activity.binding.tableLayout.addView(tablerow)
-		if(cursor.count ==0) return
-
-		// 레코드 추가하기
-		do{
-			val row = TableRow(activity)
-			row.layoutParams = rowParam
-			row.setOnClickListener {
-				for(i in 0 until attrcount){
-					val textView = row.getChildAt(i) as TextView
-					when(textView.tag){
-						0->activity.binding.pIdEdit.setText(textView.text)
-						1->activity.binding.pNamedEdit.setText(textView.text)
-						2->activity.binding.pQuantityEdit.setText(textView.text)
-					}
-				}
-			}
-			for(i in 0 until attrcount){
-				val textView = TextView(activity)
-				textView.tag = i 			// id 없이 식별하기 위해 (바로 위 클릭 리스너 getChildAt 에서 사용함)
-				textView.layoutParams = viewParam
-				print(cursor.columnCount)
-				textView.text = cursor.getString(i) // 첫번째 데이터 가져와
-				textView.textSize = 13.0f
-				textView.gravity = Gravity.CENTER
-				row.addView(textView)
-			}
-			activity.binding.tableLayout.addView(row)
-		}while(cursor.moveToNext())
+		return ret
 	}
 	fun insertData(scholarshipData: ScholarshipData):Boolean{
 		val values = ContentValues()
@@ -121,6 +100,38 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		values.put(PAPERWORK, scholarshipData.제출서류)
 		val db = writableDatabase
 		val flag = db.insert(TABLE_NAME, null, values)>0
+		db.close()
+		return flag
+	}
+
+	fun insertAll(scholarshipDataList: ArrayList<ScholarshipData>):Boolean{
+		val values = ContentValues()
+		val db = writableDatabase
+		var flag :Boolean = false
+		for(scholarshipData in scholarshipDataList) {
+			values.put(SNO, scholarshipData.번호)
+			values.put(FOUNDATION, scholarshipData.운영기관명)
+			values.put(S_NAME, scholarshipData.상품명)
+			values.put(FOUNDATION_CAT, scholarshipData.운영기관구분)
+			values.put(S_CAT, scholarshipData.상품구분)
+			values.put(S_CAT2, scholarshipData.학자금유형구분)
+			values.put(SCHOOL_CAT, scholarshipData.대학구분)
+			values.put(GRADE, scholarshipData.학년구분)
+			values.put(DEPARTMENT, scholarshipData.학과구분)
+			values.put(GRADE_CUT, scholarshipData.성적기준)
+			values.put(INCOME_CUT, scholarshipData.소득기준)
+			values.put(AMOUNT, scholarshipData.지원금액)
+			values.put(SPEC, scholarshipData.특정자격)
+			values.put(REGION, scholarshipData.지역거주여부)
+			values.put(DATE_START, scholarshipData.신청시작)
+			values.put(DATE_END, scholarshipData.신청마감)
+			values.put(SELECT_METHOD, scholarshipData.선발방법)
+			values.put(NUMBER, scholarshipData.선발인원)
+			values.put(SPEC_RESTRICT, scholarshipData.자격제한)
+			values.put(RECOMMEND, scholarshipData.추천필요여부)
+			values.put(PAPERWORK, scholarshipData.제출서류)
+			flag = db.insert(TABLE_NAME, null, values)>0
+		}
 		db.close()
 		return flag
 	}
@@ -156,58 +167,122 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		onCreate(db)
 	}
 
-	fun findProduct(name: String): Boolean {
-		val strsql = "select * from $TABLE_NAME where $PNAME='$name'"
-		val db = readableDatabase
-		val cursor = db.rawQuery(strsql, null)
-		val flag = cursor.count!=0
-		showRecord(cursor)
-		cursor.close()
-		db.close()
-		return flag
-	}
-
-	fun deleteProduct(pid: String): Boolean {
-		val strsql = "select * from $TABLE_NAME where $PID = '$pid'"
+	fun deleteScholarship(sno: String): Boolean {
+		val strsql = "select * from $TABLE_NAME where $SNO = '$sno'"
 		val db = readableDatabase
 		val cursor = db.rawQuery(strsql, null)
 		val flag = cursor.count!=0
 		if(flag){
 			cursor.moveToFirst()
-			db.delete(TABLE_NAME, "$PID=?", arrayOf(pid)) // ? 에 pid값 들을 하나씩 넘겨줌
+			db.delete(TABLE_NAME, "$SNO=?", arrayOf(sno)) // ? 에 pid값 들을 하나씩 넘겨줌
 		}
 		cursor.close()
 		db.close()
 		return flag
 	}
+//
+//	fun updateProduct(product: Product): Boolean {
+//		val pid = product.pId
+//		val strsql = "select * from $TABLE_NAME where $PID = '$pid'"
+//		val db = writableDatabase
+//		val cursor = db.rawQuery(strsql, null)
+//		val flag = cursor.count!=0
+//		if(flag){
+//			cursor.moveToFirst()
+//			val values = ContentValues()
+//			values.put(PNAME, product.pName)
+//			values.put(PQUANTITY, product.pQuantity)
+//			db.update(TABLE_NAME, values, "$PID=?",arrayOf(pid.toString())) // ? 에 pid값 들을 하나씩 넘겨줌
+//		}
+//		cursor.close()
+//		db.close()
+//		return flag
+//	}
 
-	fun updateProduct(product: Product): Boolean {
-		val pid = product.pId
-		val strsql = "select * from $TABLE_NAME where $PID = '$pid'"
-		val db = writableDatabase
-		val cursor = db.rawQuery(strsql, null)
-		val flag = cursor.count!=0
-		if(flag){
-			cursor.moveToFirst()
-			val values = ContentValues()
-			values.put(PNAME, product.pName)
-			values.put(PQUANTITY, product.pQuantity)
-			db.update(TABLE_NAME, values, "$PID=?",arrayOf(pid.toString())) // ? 에 pid값 들을 하나씩 넘겨줌
-		}
-		cursor.close()
-		db.close()
-		return flag
-	}
 
-
-	fun findProduct2(name: String): Boolean { // 특정 문자열로 시작하는 제품들 나열
-		val strsql = "select * from $TABLE_NAME where $PNAME like '$name%'"
+	fun findScholarship(name: String): ArrayList<ScholarshipData> { // 특정 문자열로 시작하는 제품들 나열
+		val strsql = "select * from $TABLE_NAME where $S_NAME like '$name%'"
 		val db = readableDatabase
 		val cursor = db.rawQuery(strsql, null)
-		val flag = cursor.count!=0
-		showRecord(cursor)
+		val ret = ArrayList<ScholarshipData>()
+		cursor.moveToFirst()
+		while(!cursor.isAfterLast){
+			ret.add(
+				ScholarshipData(
+					cursor.getInt(0),
+					cursor.getString(0),
+					cursor.getString(1),
+					cursor.getString(2),
+					cursor.getString(3),
+					cursor.getString(4),
+					cursor.getString(5),
+					cursor.getString(6),
+					cursor.getString(7),
+					cursor.getString(8),
+					cursor.getString(9),
+					cursor.getString(10),
+					cursor.getString(11),
+					cursor.getString(12),
+					cursor.getString(13),
+					cursor.getString(14),
+					cursor.getString(15),
+					cursor.getString(16),
+					cursor.getString(17),
+					cursor.getString(18),
+					cursor.getString(19)
+				)
+			)
+		}
 		cursor.close()
 		db.close()
-		return flag
+		return ret
 	}
+//	private fun showRecord(cursor: Cursor){
+//		cursor.moveToFirst()
+//		val attrcount = cursor.columnCount
+//		val activity = context as Temp_DataTestingActivity // 실행할 때 mainActivity의 context 정보를 넘겨 받음. 그걸로 tableLayout 접근
+//		activity.binding.recyclerView.removeAllViewsInLayout() // 테이블 레이아웃의 모든 뷰를 지우고 타이틀부터 만들기
+//		val tablerow = TableRow(activity)
+//		val rowParam = TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT)
+//		tablerow.layoutParams = rowParam
+//		val viewParam = TableRow.LayoutParams(0, 100, 1f)
+//		for(i in 0 until attrcount){
+//			val textView = TextView(activity)
+//			textView.layoutParams = viewParam
+//			textView.text = cursor.getColumnName(i)
+//			textView.setBackgroundColor(Color.LTGRAY)
+//			textView.textSize = 15.0f
+//			textView.gravity = Gravity.CENTER
+//			tablerow.addView(textView)
+//		}
+//		activity.binding.tableLayout.addView(tablerow)
+//		if(cursor.count ==0) return
+//
+//		// 레코드 추가하기
+//		do{
+//			val row = TableRow(activity)
+//			row.layoutParams = rowParam
+//			row.setOnClickListener {
+//				for(i in 0 until attrcount){
+//					val textView = row.getChildAt(i) as TextView
+//					when(textView.tag){
+//						0->activity.binding.pIdEdit.setText(textView.text)
+//						1->activity.binding.pNamedEdit.setText(textView.text)
+//						2->activity.binding.pQuantityEdit.setText(textView.text)
+//					}
+//				}
+//			}
+//			for(i in 0 until attrcount){
+//				val textView = TextView(activity)
+//				textView.tag = i 			// id 없이 식별하기 위해 (바로 위 클릭 리스너 getChildAt 에서 사용함)
+//				textView.layoutParams = viewParam
+//				print(cursor.columnCount)
+//				textView.text = cursor.getString(i) // 첫번째 데이터 가져와
+//				textView.textSize = 13.0f
+//				textView.gravity = Gravity.CENTER
+//				row.addView(textView)
+//			}
+//			activity.binding.tableLayout.addView(row)
+//		}while(cursor.moveToNext())
+//	}
 }

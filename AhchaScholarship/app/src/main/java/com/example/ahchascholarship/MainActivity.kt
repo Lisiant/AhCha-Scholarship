@@ -17,7 +17,8 @@ import java.io.InputStreamReader
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
-    lateinit var scholarshipDataList:ArrayList<ScholarshipData>
+    lateinit var scholarshipDBHelper: ScholarshipDBHelper
+    val scholarshipDataList = ArrayList<ScholarshipData>()
     val dataIOScope = CoroutineScope(Dispatchers.IO)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +65,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initScholarshipData(){
+        scholarshipDBHelper = ScholarshipDBHelper(this)
         dataIOScope.launch {
             scholarshipDataList.clear()
             val FStream = InputStreamReader(getResources().openRawResource(R.raw.data));
@@ -75,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                     continue
                 scholarshipDataList.add(
                     ScholarshipData(
-                        scholarship[0].removePrefix(" - ").trim(),
+                        scholarship[0].removePrefix(" - ").trim().replace(",","").toInt(),
                         scholarship[1].removePrefix(" - ").trim(),
                         scholarship[2].removePrefix(" - ").trim(),
                         scholarship[3].removePrefix(" - ").trim(),
@@ -89,7 +91,8 @@ class MainActivity : AppCompatActivity() {
                         scholarship[11].removePrefix(" - ").trim(),
                         scholarship[12].removePrefix(" - ").trim(),
                         scholarship[13].removePrefix(" - ").trim(),
-                        scholarship[14].removePrefix(" - ").trim(),
+                        date.start.toString(),
+                        date.end.toString(),
                         scholarship[15].removePrefix(" - ").trim(),
                         scholarship[16].removePrefix(" - ").trim(),
                         scholarship[17].removePrefix(" - ").trim(),
@@ -101,11 +104,13 @@ class MainActivity : AppCompatActivity() {
             read.close()
             reader.close()
             FStream.close()
-
+        }
+        for(scholarship in scholarshipDataList) {
+            scholarshipDBHelper.insertData(scholarship)
         }
         binding.DataTestBtn.setOnClickListener {
             val intent = Intent(this, Temp_DataTestingActivity::class.java)
-            intent.putExtra("scholarshipDataList", scholarshipDataList)
+            intent.putExtra("scholar", scholarshipDataList)
             startActivity(intent)
         }
     }

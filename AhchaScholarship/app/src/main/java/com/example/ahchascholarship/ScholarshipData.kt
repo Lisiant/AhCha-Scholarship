@@ -3,7 +3,7 @@ package com.example.ahchascholarship
 import java.io.Serializable
 import java.util.*
 
-data class ScholarshipData (var 번호 :String,
+data class ScholarshipData (var 번호 :Int,
 						   var 운영기관명 :String,
 						   var 상품명 :String,
 						   var 운영기관구분 :String,
