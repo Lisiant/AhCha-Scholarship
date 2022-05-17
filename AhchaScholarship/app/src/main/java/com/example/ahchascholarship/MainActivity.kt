@@ -13,6 +13,9 @@ import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -91,8 +94,8 @@ class MainActivity : AppCompatActivity() {
                         scholarship[11].removePrefix(" - ").trim(),
                         scholarship[12].removePrefix(" - ").trim(),
                         scholarship[13].removePrefix(" - ").trim(),
-                        date.start.toString(),
-                        date.end.toString(),
+                        SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(date.start),
+                        SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(date.end),
                         scholarship[15].removePrefix(" - ").trim(),
                         scholarship[16].removePrefix(" - ").trim(),
                         scholarship[17].removePrefix(" - ").trim(),

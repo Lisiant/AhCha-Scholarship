@@ -4,6 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ahchascholarship.databinding.TempDataTestingRowBinding
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Temp_DataTestActivityAdapter(val items:ArrayList<ScholarshipData>)
 : RecyclerView.Adapter<Temp_DataTestActivityAdapter.MyViewHolder>()
@@ -43,15 +46,14 @@ class Temp_DataTestActivityAdapter(val items:ArrayList<ScholarshipData>)
 		holder.binding.e11.text = "지원금액: ".plus(items[position].지원금액)
 		holder.binding.e12.text = "특정자격: ".plus(items[position].특정자격)
 		holder.binding.e13.text = "지역거주여부: ".plus(items[position].지역거주여부)
-		holder.binding.e14.text = "신청기간: ".plus(items[position].신청시작)
-		holder.binding.e15.text = "신청기간: ".plus(items[position].신청마감)
+		holder.binding.e14.text = "신청시작: ".plus(items[position].신청시작)
+		holder.binding.e15.text = "신청마감: ".plus(items[position].신청마감)
 		holder.binding.e16.text = "선발방법: ".plus(items[position].선발방법)
 		holder.binding.e17.text = "선발인원: ".plus(items[position].선발인원)
 		holder.binding.e18.text = "자격제한: ".plus(items[position].자격제한)
 		holder.binding.e19.text = "추천필요여부: ".plus(items[position].추천필요여부)
 		holder.binding.e20.text = "제출서류: ".plus(items[position].제출서류)
 	}
-
 }
 
 // 0 번호
@@ -68,9 +70,10 @@ class Temp_DataTestActivityAdapter(val items:ArrayList<ScholarshipData>)
 // 11 지원금액
 // 12 특정자격
 // 13 지역거주여부
-// 14 신청기간
-// 15 선발방법
-// 16 선발인원
-// 17 자격제한
-// 18 추천필요여부
-// 19
+// 14 신청시작
+// 15 신청마감
+// 16 선발방법
+// 17 선발인원
+// 18 자격제한
+// 19 추천필요여부
+// 20 제출서류
