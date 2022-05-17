@@ -10,8 +10,10 @@
         <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/layout/fragment_scholarship.xml" value="0.2898550724637681" />
         <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36822916666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2796875" />
+        <entry key="app/src/main/res/layout/fragment_scholarship.xml" value="0.2796875" />
         <entry key="app/src/main/res/layout/temp_activity_data_testing.xml" value="0.1" />
         <entry key="app/src/main/res/layout/temp_data_testing_row.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.2796875" />
       </map>
     </option>
   </component>

@@ -180,25 +180,6 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		db.close()
 		return flag
 	}
-//
-//	fun updateProduct(product: Product): Boolean {
-//		val pid = product.pId
-//		val strsql = "select * from $TABLE_NAME where $PID = '$pid'"
-//		val db = writableDatabase
-//		val cursor = db.rawQuery(strsql, null)
-//		val flag = cursor.count!=0
-//		if(flag){
-//			cursor.moveToFirst()
-//			val values = ContentValues()
-//			values.put(PNAME, product.pName)
-//			values.put(PQUANTITY, product.pQuantity)
-//			db.update(TABLE_NAME, values, "$PID=?",arrayOf(pid.toString())) // ? 에 pid값 들을 하나씩 넘겨줌
-//		}
-//		cursor.close()
-//		db.close()
-//		return flag
-//	}
-
 
 	fun findScholarship(name: String): ArrayList<ScholarshipData> { // 특정 문자열로 시작하는 제품들 나열
 		val strsql = "select * from $TABLE_NAME where $S_NAME like '$name%'"
@@ -285,4 +266,24 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 //			activity.binding.tableLayout.addView(row)
 //		}while(cursor.moveToNext())
 //	}
+
+//
+//	fun updateProduct(product: Product): Boolean {
+//		val pid = product.pId
+//		val strsql = "select * from $TABLE_NAME where $PID = '$pid'"
+//		val db = writableDatabase
+//		val cursor = db.rawQuery(strsql, null)
+//		val flag = cursor.count!=0
+//		if(flag){
+//			cursor.moveToFirst()
+//			val values = ContentValues()
+//			values.put(PNAME, product.pName)
+//			values.put(PQUANTITY, product.pQuantity)
+//			db.update(TABLE_NAME, values, "$PID=?",arrayOf(pid.toString())) // ? 에 pid값 들을 하나씩 넘겨줌
+//		}
+//		cursor.close()
+//		db.close()
+//		return flag
+//	}
+
 }
