@@ -11,7 +11,7 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.core.database.getStringOrNull
 
-/* =================Tables==================== */
+/* =================Table==================== */
 //
 //-----------scholarshipMain----------
 // -
@@ -61,12 +61,8 @@ import androidx.core.database.getStringOrNull
 // 10: 지역연고
 // 1: 특기자
 //
-//-----------SchoolCat----------
-// - 0 번호 integer primary-key1
-// - 1 대학구분 integer primary-key2 foreign-key references scholarshipMain
-//
+// * 대학구분
 // 10자리 2진수 숫자로 각 자리에 0은 false, 1은 true
-//
 // 1,000,000,000: 제한없음
 // 100,000,000: 4년제(5~6년제 포함)
 // 10,000,000: 전문대(2~3년제)
@@ -78,10 +74,8 @@ import androidx.core.database.getStringOrNull
 // 10: 전문대학원
 // 1: 일반대학원
 //
-//
-//-----------Year----------
+// * 학년구분
 // 13자리 2진수 숫자로 각 자리에 0은 false, 1은 true
-//
 // 1,000,000,000,000: 제한없음
 // 100,000,000,000: 대학신입생
 // 10,000,000,000: 대학2학기
@@ -97,7 +91,7 @@ import androidx.core.database.getStringOrNull
 // 1: 연령제한 -> 제한없음과 같은 지위를 줘야하나?
 //
 //
-//-----------Department----------
+// * 학과구분
 // 9자리 2진수 숫자로 각 자리에 0은 false, 1은 true
 //
 // 100,000,000: 제한없음
@@ -121,12 +115,12 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		val SNO = "번호"
 		val FOUNDATION = "운영기관명"
 		val S_NAME = "상품명"
-		val FOUNDATION_CAT = "운영기관구분"
-		val S_CAT = "상품구분"
-		val S_CAT2 = "학자금유형구분"
-		val SCHOOL_CAT = "대학구분"
-		val YEAR = "학년구분"
-		val DEPARTMENT = "학과구분"
+		val FOUNDATION_CAT = "운영기관구분" // 복호화 함수: ScholarshipDataParser().decodeFCat
+		val S_CAT = "상품구분" // 복호화 함수: ScholarshipDataParser().decodeSCat1
+		val S_CAT2 = "학자금유형구분" // 복호화 함수: ScholarshipDataParser().decodeSCat2
+		val SCHOOL_CAT = "대학구분" // 복호화 함수: ScholarshipDataParser().decodeSchoolCat
+		val YEAR = "학년구분" // 복호화 함수: ScholarshipDataParser().decodeYear
+		val DEPARTMENT = "학과구분" // 복호화 함수: ScholarshipDataParser().decodeDepartment
 		val GRADE_CUT = "성적기준"
 		val INCOME_CUT = "소득기준"
 		val AMOUNT = "지원금액"
