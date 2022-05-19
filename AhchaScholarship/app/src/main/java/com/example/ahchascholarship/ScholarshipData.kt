@@ -6,12 +6,12 @@ import java.util.*
 data class ScholarshipData (var 번호 :Int,
 						   var 운영기관명 :String,
 						   var 상품명 :String,
-						   var 운영기관구분 :String,
-						   var 상품구분 :String,
-						   var 학자금유형구분 :String,
-						   var 대학구분 :String,
-						   var 학년구분 :String,
-						   var 학과구분 :String,
+						   var 운영기관구분 :Int,
+						   var 상품구분 :Int,
+						   var 학자금유형구분 :Int,
+						   var 대학구분 :Int,
+						   var 학년구분 :Int,
+						   var 학과구분 :Int,
 						   var 성적기준 :String,
 						   var 소득기준 :String,
 						   var 지원금액 :String,
@@ -23,6 +23,7 @@ data class ScholarshipData (var 번호 :Int,
 						   var 선발인원 :String,
 						   var 자격제한 :String,
 						   var 추천필요여부 :String,
-						   var 제출서류 :String): Serializable
+						   var 제출서류 :String,
+						   var selected :Boolean): Serializable
 
 data class StartEndDate(var start: Date, var end: Date)

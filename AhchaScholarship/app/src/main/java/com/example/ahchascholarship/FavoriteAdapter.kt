@@ -9,6 +9,7 @@ import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ahchascholarship.R
 import com.example.ahchascholarship.ScholarshipData
+import com.example.ahchascholarship.ScholarshipDataParser
 import com.example.ahchascholarship.databinding.FavoriteBinding
 
 class FavoriteAdapter(val items:ArrayList<ScholarshipData>) :RecyclerView.Adapter<FavoriteAdapter.ViewHolder>(){
@@ -57,12 +58,18 @@ class FavoriteAdapter(val items:ArrayList<ScholarshipData>) :RecyclerView.Adapte
         holder.binding.favoriteStr1.text = items[position].번호.toString()
         holder.binding.favoriteStr2.text = items[position].운영기관명
         holder.binding.favoriteStr3.text = items[position].상품명
-        holder.binding.favoriteStr4.text = items[position].운영기관구분
-        holder.binding.favoriteStr5.text = items[position].상품구분
-        holder.binding.favoriteStr6.text = items[position].학자금유형구분
-        holder.binding.favoriteStr7.text = items[position].대학구분
-        holder.binding.favoriteStr8.text = items[position].학년구분
-        holder.binding.favoriteStr9.text = items[position].학과구분
+//        holder.binding.favoriteStr4.text = items[position].운영기관구분
+//        holder.binding.favoriteStr5.text = items[position].상품구분
+//        holder.binding.favoriteStr6.text = items[position].학자금유형구분
+//        holder.binding.favoriteStr7.text = items[position].대학구분
+//        holder.binding.favoriteStr8.text = items[position].학년구분
+//        holder.binding.favoriteStr9.text = items[position].학과구분
+        holder.binding.favoriteStr4.text = ScholarshipDataParser().decodeFCat(items[position].운영기관구분)
+        holder.binding.favoriteStr5.text = ScholarshipDataParser().decodeSCat1(items[position].상품구분)
+        holder.binding.favoriteStr6.text = ScholarshipDataParser().decodeSCat2(items[position].학자금유형구분)
+        holder.binding.favoriteStr7.text = ScholarshipDataParser().decodeSchoolCat(items[position].대학구분).toString()
+        holder.binding.favoriteStr8.text = ScholarshipDataParser().decodeYear(items[position].학년구분).toString()
+        holder.binding.favoriteStr9.text = ScholarshipDataParser().decodeDepartment(items[position].학과구분).toString()
         holder.binding.favoriteStr10.text = items[position].성적기준
         holder.binding.favoriteStr11.text = items[position].소득기준
         holder.binding.favoriteStr12.text = items[position].지원금액

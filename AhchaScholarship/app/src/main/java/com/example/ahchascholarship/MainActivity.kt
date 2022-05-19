@@ -83,12 +83,12 @@ class MainActivity : AppCompatActivity() {
                         scholarship[0].removePrefix(" - ").trim().replace(",","").toInt(),
                         scholarship[1].removePrefix(" - ").trim(),
                         scholarship[2].removePrefix(" - ").trim(),
-                        scholarship[3].removePrefix(" - ").trim(),
-                        scholarship[4].removePrefix(" - ").trim(),
-                        scholarship[5].removePrefix(" - ").trim(),
-                        scholarship[6].removePrefix(" - ").trim(),
-                        scholarship[7].removePrefix(" - ").trim(),
-                        scholarship[8].removePrefix(" - ").trim(),
+                        ScholarshipDataParser().encodeFCat(scholarship[3].removePrefix(" - ").trim()),
+                        ScholarshipDataParser().encodeSCat1(scholarship[4].removePrefix(" - ").trim()),
+                        ScholarshipDataParser().encodeSCat2(scholarship[5].removePrefix(" - ").trim()),
+                        ScholarshipDataParser().encodeSchoolCat(scholarship[6].removePrefix(" - ").trim()),
+                        ScholarshipDataParser().encodeYear(scholarship[7].removePrefix(" - ").trim()),
+                        ScholarshipDataParser().encodeDepartment(scholarship[8].removePrefix(" - ").trim()),
                         scholarship[9].removePrefix(" - ").trim(),
                         scholarship[10].removePrefix(" - ").trim(),
                         scholarship[11].removePrefix(" - ").trim(),
@@ -100,7 +100,8 @@ class MainActivity : AppCompatActivity() {
                         scholarship[16].removePrefix(" - ").trim(),
                         scholarship[17].removePrefix(" - ").trim(),
                         scholarship[18].removePrefix(" - ").trim(),
-                        scholarship[19].removePrefix(" - ").trim()
+                        scholarship[19].removePrefix(" - ").trim(),
+                        false
                     )
                 )
             }
