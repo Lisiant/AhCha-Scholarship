@@ -21,7 +21,7 @@ class Temp_DataTestingActivity : AppCompatActivity() {
 			LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 		binding.recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 		// ^ recyclerView 의 각 아이템 사이에 구분 선 넣는 것
-		val data = intent.getSerializableExtra("scholar")as ArrayList<ScholarshipData>
+		val data = ScholarshipDBHelper(this).getAllRecord()
 		adapter = Temp_DataTestActivityAdapter(data)
 		binding.recyclerView.adapter = adapter
 	}
