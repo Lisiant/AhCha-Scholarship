@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             val read = CSVReader(reader)
             for (scholarship in read) {
                 val date = ScholarshipDataParser().stringToDate(scholarship[14]) ?: continue
-                if (date.end.before(ScholarshipDataParser().dateFormat.parse("2022-05-11")))
+                if (date.end.before(ScholarshipDataParser.dateFormat.parse("2022-05-11")))
                     continue
                 scholarshipDataList.add(
                     ScholarshipData(
@@ -86,9 +86,9 @@ class MainActivity : AppCompatActivity() {
                         ScholarshipDataParser().encodeFCat(scholarship[3].removePrefix(" - ").trim()),
                         ScholarshipDataParser().encodeSCat1(scholarship[4].removePrefix(" - ").trim()),
                         ScholarshipDataParser().encodeSCat2(scholarship[5].removePrefix(" - ").trim()),
-                        ScholarshipDataParser().encodeSchoolCat(scholarship[6].removePrefix(" - ").trim()),
-                        ScholarshipDataParser().encodeYear(scholarship[7].removePrefix(" - ").trim()),
-                        ScholarshipDataParser().encodeDepartment(scholarship[8].removePrefix(" - ").trim()),
+                        ScholarshipDataParser().encodeSchoolCat(scholarship[6].removePrefix(" - ").replace(" ","")),
+                        ScholarshipDataParser().encodeYear(scholarship[7].removePrefix(" - ").replace(" ","")),
+                        ScholarshipDataParser().encodeDepartment(scholarship[8].removePrefix(" - ").replace(" ","")),
                         scholarship[9].removePrefix(" - ").trim(),
                         scholarship[10].removePrefix(" - ").trim(),
                         scholarship[11].removePrefix(" - ").trim(),
@@ -108,9 +108,9 @@ class MainActivity : AppCompatActivity() {
             read.close()
             reader.close()
             FStream.close()
-        }
-        for(scholarship in scholarshipDataList) {
-            scholarshipDBHelper.insertData(scholarship)
+            for(scholarship in scholarshipDataList) {
+                scholarshipDBHelper.insertData(scholarship)
+            }
         }
         binding.DataTestBtn.setOnClickListener {
             val intent = Intent(this, Temp_DataTestingActivity::class.java)

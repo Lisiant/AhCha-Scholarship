@@ -112,7 +112,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		val DB_VERSION = 1
 		val TABLE_NAME_MAIN = "scholarshipMain"
 
-		val SNO = "번호"
+		val SNO = "SNO"
 		val FOUNDATION = "운영기관명"
 		val S_NAME = "상품명"
 		val FOUNDATION_CAT = "운영기관구분" // 복호화 함수: ScholarshipDataParser().decodeFCat
@@ -145,15 +145,14 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 			ret.add(
 				ScholarshipData(
 					cursor.getInt(0),
-					cursor.getString(0),
 					cursor.getString(1),
-					cursor.getInt(2),
+					cursor.getString(2),
 					cursor.getInt(3),
 					cursor.getInt(4),
 					cursor.getInt(5),
 					cursor.getInt(6),
 					cursor.getInt(7),
-					cursor.getString(8),
+					cursor.getInt(8),
 					cursor.getString(9),
 					cursor.getString(10),
 					cursor.getString(11),
@@ -165,9 +164,11 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 					cursor.getString(17),
 					cursor.getString(18),
 					cursor.getString(19),
-					cursor.getInt(8) == 1
+					cursor.getString(20),
+					cursor.getInt(21) == 1
 				)
 			)
+			cursor.moveToNext()
 		}
 		cursor.close()
 		db.close()
@@ -184,8 +185,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		values.put(S_CAT, scholarshipData.상품구분)
 		values.put(S_CAT2, scholarshipData.학자금유형구분)
 		values.put(SCHOOL_CAT, scholarshipData.대학구분)
-		values.put(SCHOOL_CAT, scholarshipData.학년구분)
-		values.put(SCHOOL_CAT, scholarshipData.학과구분)
+		values.put(YEAR, scholarshipData.학년구분)
+		values.put(DEPARTMENT, scholarshipData.학과구분)
 		values.put(GRADE_CUT, scholarshipData.성적기준)
 		values.put(INCOME_CUT, scholarshipData.소득기준)
 		values.put(AMOUNT, scholarshipData.지원금액)
@@ -202,7 +203,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 			values.put(FAVORITE, 1)
 		else
 			values.put(FAVORITE, 0)
-		flag = db.insert(TABLE_NAME_MAIN, null, values)>0
+		flag = db.insert(TABLE_NAME_MAIN, "", values)>0
 		db.close()
 		return flag
 	}
@@ -237,7 +238,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 				values.put(FAVORITE, 1)
 			else
 				values.put(FAVORITE, 0)
-			flag = db.insert(TABLE_NAME_MAIN, null, values)>0
+			flag = db.insert(TABLE_NAME_MAIN, "", values)>0
 		}
 		db.close()
 		return flag
@@ -247,12 +248,12 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 				"$SNO integer primary key," +
 				"$FOUNDATION text," +
 				"$S_NAME text," +
-				"$FOUNDATION_CAT integer," +
-				"$S_CAT integer," +
-				"$S_CAT2 integer," +
-				"$SCHOOL_CAT integer," +
-				"$YEAR integer,"+
-				"$DEPARTMENT integer,"+
+				"$FOUNDATION_CAT INTEGER," +
+				"$S_CAT INTEGER," +
+				"$S_CAT2 INTEGER," +
+				"$SCHOOL_CAT INTEGER," +
+				"$YEAR INTEGER,"+
+				"$DEPARTMENT INTEGER,"+
 				"$GRADE_CUT text," +
 				"$INCOME_CUT text," +
 				"$AMOUNT text," +
@@ -299,15 +300,14 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 			ret.add(
 				ScholarshipData(
 					cursor.getInt(0),
-					cursor.getString(0),
 					cursor.getString(1),
-					cursor.getInt(2),
+					cursor.getString(2),
 					cursor.getInt(3),
 					cursor.getInt(4),
 					cursor.getInt(5),
 					cursor.getInt(6),
 					cursor.getInt(7),
-					cursor.getString(8),
+					cursor.getInt(8),
 					cursor.getString(9),
 					cursor.getString(10),
 					cursor.getString(11),
@@ -319,7 +319,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 					cursor.getString(17),
 					cursor.getString(18),
 					cursor.getString(19),
-					cursor.getInt(8) == 1
+					cursor.getString(20),
+					cursor.getInt(21) == 1
 				)
 			)
 		}
