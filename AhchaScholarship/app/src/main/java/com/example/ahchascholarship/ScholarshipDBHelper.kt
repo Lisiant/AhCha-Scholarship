@@ -11,11 +11,113 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.core.database.getStringOrNull
 
+/* =================Tables==================== */
+//
+//-----------scholarshipMain----------
+// -
+// - 0 번호  integer primary-key
+// - 1 운영기관명
+// - 2 상품명
+// - 3 운영기관구분
+// - 4 상품구분
+// - 5 학자금유형구분
+// - 6 대학구분
+// - 7 학년구분
+// - 8 학과구분
+// - 9 성적기준
+// - 10 소득기준
+// - 11 지원금액
+// - 12 특정자격
+// - 13 지역거주여부
+// - 14 신청시작
+// - 15 신청마감
+// - 16 선발방법
+// - 17 선발인원
+// - 18 자격제한
+// - 19 추천필요여부
+// - 20 제출서류
+// - 21 관심여부
+//
+// * 운영기관구분
+// 5 자리 2진수 숫자로 각 자리 0은 false, 1은 true
+// 100,000: 관계부처
+// 10,000: 대학교
+// 1,000: 민간
+// 100: 민간
+// 10: 지자체
+// 1: 한국장학재단
+//
+// * 상품구분
+// 1자리 2진수 숫자
+// 1: 장학금
+// 0: 학자금
+//
+// * 학자금유형구분
+// 6자리 2진수 숫자
+// 100,000: 기타
+// 10,000: 성적우수
+// 1,000: 소득구분
+// 100: 장애인
+// 10: 지역연고
+// 1: 특기자
+//
+//-----------SchoolCat----------
+// - 0 번호 integer primary-key1
+// - 1 대학구분 integer primary-key2 foreign-key references scholarshipMain
+//
+// 10자리 2진수 숫자로 각 자리에 0은 false, 1은 true
+//
+// 1,000,000,000: 제한없음
+// 100,000,000: 4년제(5~6년제 포함)
+// 10,000,000: 전문대(2~3년제)
+// 1,000,000: 특정대학 -> 제한없음과 같은 지위를 줘야하나?
+// 100,000: 해외대학
+// 10,000: 원격대학
+// 1,000: 학점은행제 대학
+// 100: 기술대학
+// 10: 전문대학원
+// 1: 일반대학원
+//
+//
+//-----------Year----------
+// 13자리 2진수 숫자로 각 자리에 0은 false, 1은 true
+//
+// 1,000,000,000,000: 제한없음
+// 100,000,000,000: 대학신입생
+// 10,000,000,000: 대학2학기
+// 1,000,000,000: 대학3학기
+// 100,000,000: 대학4학기
+// 10,000,000: 대학5학기
+// 1,000,000: 대학6학기
+// 100,000: 대학7학기
+// 10,000: 대학8학기이상
+// 1,000: 석사신입생
+// 100: 석사2학기이상
+// 10: 박사과정
+// 1: 연령제한 -> 제한없음과 같은 지위를 줘야하나?
+//
+//
+//-----------Department----------
+// 9자리 2진수 숫자로 각 자리에 0은 false, 1은 true
+//
+// 100,000,000: 제한없음
+// 10,000,000: 공학계열
+// 1,000,000: 교육계열
+// 100,000: 사회계열
+// 10,000: 예체능계열
+// 1,000: 의약계열
+// 100: 인문계열
+// 10: 자연계열
+// 1: 특정학과 -> 제한없음과 같은 지위를 줘야하나?
+//
+
+
 class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 	companion object{ // 변수를 스테틱으로 만들어버려
 		val DB_NAME = "scholarship.db"
 		val DB_VERSION = 1
-		val TABLE_NAME = "scholarship"
+		val TABLE_NAME_MAIN = "scholarshipMain"
+
 		val SNO = "번호"
 		val FOUNDATION = "운영기관명"
 		val S_NAME = "상품명"
@@ -23,7 +125,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		val S_CAT = "상품구분"
 		val S_CAT2 = "학자금유형구분"
 		val SCHOOL_CAT = "대학구분"
-		val GRADE = "학년구분"
+		val YEAR = "학년구분"
 		val DEPARTMENT = "학과구분"
 		val GRADE_CUT = "성적기준"
 		val INCOME_CUT = "소득기준"
@@ -37,9 +139,10 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		val SPEC_RESTRICT = "자격제한"
 		val RECOMMEND = "추천필요여부"
 		val PAPERWORK = "제출서류"
+		val FAVORITE = "관심등록"
 	}
 	fun getAllRecord():ArrayList<ScholarshipData>{
-		val strSql = "select * from $TABLE_NAME"
+		val strSql = "select * from $TABLE_NAME_MAIN"
 		val db = readableDatabase
 		val cursor = db.rawQuery(strSql, null)
 		val ret = ArrayList<ScholarshipData>()
@@ -50,12 +153,12 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 					cursor.getInt(0),
 					cursor.getString(0),
 					cursor.getString(1),
-					cursor.getString(2),
-					cursor.getString(3),
-					cursor.getString(4),
-					cursor.getString(5),
-					cursor.getString(6),
-					cursor.getString(7),
+					cursor.getInt(2),
+					cursor.getInt(3),
+					cursor.getInt(4),
+					cursor.getInt(5),
+					cursor.getInt(6),
+					cursor.getInt(7),
 					cursor.getString(8),
 					cursor.getString(9),
 					cursor.getString(10),
@@ -67,7 +170,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 					cursor.getString(16),
 					cursor.getString(17),
 					cursor.getString(18),
-					cursor.getString(19)
+					cursor.getString(19),
+					cursor.getInt(8) == 1
 				)
 			)
 		}
@@ -77,6 +181,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 	}
 	fun insertData(scholarshipData: ScholarshipData):Boolean{
 		val values = ContentValues()
+		var flag = false
+		val db = writableDatabase
 		values.put(SNO, scholarshipData.번호)
 		values.put(FOUNDATION, scholarshipData.운영기관명)
 		values.put(S_NAME, scholarshipData.상품명)
@@ -84,8 +190,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		values.put(S_CAT, scholarshipData.상품구분)
 		values.put(S_CAT2, scholarshipData.학자금유형구분)
 		values.put(SCHOOL_CAT, scholarshipData.대학구분)
-		values.put(GRADE, scholarshipData.학년구분)
-		values.put(DEPARTMENT, scholarshipData.학과구분)
+		values.put(SCHOOL_CAT, scholarshipData.학년구분)
+		values.put(SCHOOL_CAT, scholarshipData.학과구분)
 		values.put(GRADE_CUT, scholarshipData.성적기준)
 		values.put(INCOME_CUT, scholarshipData.소득기준)
 		values.put(AMOUNT, scholarshipData.지원금액)
@@ -98,8 +204,11 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		values.put(SPEC_RESTRICT, scholarshipData.자격제한)
 		values.put(RECOMMEND, scholarshipData.추천필요여부)
 		values.put(PAPERWORK, scholarshipData.제출서류)
-		val db = writableDatabase
-		val flag = db.insert(TABLE_NAME, null, values)>0
+		if(scholarshipData.selected)
+			values.put(FAVORITE, 1)
+		else
+			values.put(FAVORITE, 0)
+		flag = db.insert(TABLE_NAME_MAIN, null, values)>0
 		db.close()
 		return flag
 	}
@@ -116,7 +225,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 			values.put(S_CAT, scholarshipData.상품구분)
 			values.put(S_CAT2, scholarshipData.학자금유형구분)
 			values.put(SCHOOL_CAT, scholarshipData.대학구분)
-			values.put(GRADE, scholarshipData.학년구분)
+			values.put(YEAR, scholarshipData.학년구분)
 			values.put(DEPARTMENT, scholarshipData.학과구분)
 			values.put(GRADE_CUT, scholarshipData.성적기준)
 			values.put(INCOME_CUT, scholarshipData.소득기준)
@@ -130,22 +239,26 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 			values.put(SPEC_RESTRICT, scholarshipData.자격제한)
 			values.put(RECOMMEND, scholarshipData.추천필요여부)
 			values.put(PAPERWORK, scholarshipData.제출서류)
-			flag = db.insert(TABLE_NAME, null, values)>0
+			if(scholarshipData.selected)
+				values.put(FAVORITE, 1)
+			else
+				values.put(FAVORITE, 0)
+			flag = db.insert(TABLE_NAME_MAIN, null, values)>0
 		}
 		db.close()
 		return flag
 	}
 	override fun onCreate(db: SQLiteDatabase?) {
-		val create_table = "create table if not exists $TABLE_NAME("+
+		val create_table_main = "create table if not exists $TABLE_NAME_MAIN("+
 				"$SNO integer primary key," +
 				"$FOUNDATION text," +
 				"$S_NAME text," +
-				"$FOUNDATION_CAT text," +
-				"$S_CAT text," +
-				"$S_CAT2 text," +
-				"$SCHOOL_CAT text," +
-				"$GRADE text," +
-				"$DEPARTMENT text," +
+				"$FOUNDATION_CAT integer," +
+				"$S_CAT integer," +
+				"$S_CAT2 integer," +
+				"$SCHOOL_CAT integer," +
+				"$YEAR integer,"+
+				"$DEPARTMENT integer,"+
 				"$GRADE_CUT text," +
 				"$INCOME_CUT text," +
 				"$AMOUNT text," +
@@ -157,24 +270,25 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 				"$NUMBER text," +
 				"$SPEC_RESTRICT text, " +
 				"$RECOMMEND text, " +
-				"$PAPERWORK text);"
-		db!!.execSQL(create_table)
+				"$PAPERWORK text," +
+				"$FAVORITE integer default 0);"
+		db!!.execSQL(create_table_main)
 	}
 
 	override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVirsion: Int) {
-		val drop_table = "drop table if exists $TABLE_NAME;"
+		val drop_table = "drop table if exists $TABLE_NAME_MAIN;"
 		db!!.execSQL(drop_table)
 		onCreate(db)
 	}
 
 	fun deleteScholarship(sno: String): Boolean {
-		val strsql = "select * from $TABLE_NAME where $SNO = '$sno'"
+		val strsql = "select * from $TABLE_NAME_MAIN where $SNO = '$sno'"
 		val db = readableDatabase
 		val cursor = db.rawQuery(strsql, null)
 		val flag = cursor.count!=0
 		if(flag){
 			cursor.moveToFirst()
-			db.delete(TABLE_NAME, "$SNO=?", arrayOf(sno)) // ? 에 pid값 들을 하나씩 넘겨줌
+			db.delete(TABLE_NAME_MAIN, "$SNO=?", arrayOf(sno)) // ? 에 pid값 들을 하나씩 넘겨줌
 		}
 		cursor.close()
 		db.close()
@@ -182,7 +296,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 	}
 
 	fun findScholarship(name: String): ArrayList<ScholarshipData> { // 특정 문자열로 시작하는 제품들 나열
-		val strsql = "select * from $TABLE_NAME where $S_NAME like '$name%'"
+		val strsql = "select * from $TABLE_NAME_MAIN where $S_NAME like '$name%'"
 		val db = readableDatabase
 		val cursor = db.rawQuery(strsql, null)
 		val ret = ArrayList<ScholarshipData>()
@@ -193,12 +307,12 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 					cursor.getInt(0),
 					cursor.getString(0),
 					cursor.getString(1),
-					cursor.getString(2),
-					cursor.getString(3),
-					cursor.getString(4),
-					cursor.getString(5),
-					cursor.getString(6),
-					cursor.getString(7),
+					cursor.getInt(2),
+					cursor.getInt(3),
+					cursor.getInt(4),
+					cursor.getInt(5),
+					cursor.getInt(6),
+					cursor.getInt(7),
 					cursor.getString(8),
 					cursor.getString(9),
 					cursor.getString(10),
@@ -210,7 +324,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 					cursor.getString(16),
 					cursor.getString(17),
 					cursor.getString(18),
-					cursor.getString(19)
+					cursor.getString(19),
+					cursor.getInt(8) == 1
 				)
 			)
 		}
