@@ -97,7 +97,7 @@ class Temp_DataTestingActivity : AppCompatActivity() {
 		sCat1Bit = SELECTALL
 		sCat2Bit = SELECTALL
 		schoolCatBit = SELECTALL
-		yearBit = YEAR_대학신입생.or(YEAR_대학2학기)
+		yearBit = YEAR_대학신입생.or(YEAR_대학2학기) // or 연산으로 원하는 값들을 넣을 수 있음.
 		departmentBit = DEPT_공학계열.or(DEPT_사회계열)
 		val data = ScholarshipDBHelper(this).catSelector(fCatBit,sCat1Bit,sCat2Bit,schoolCatBit,yearBit,departmentBit)
 		adapter = Temp_DataTestActivityAdapter(data)
