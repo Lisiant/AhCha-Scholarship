@@ -368,6 +368,63 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		db.close()
 		return ret
 	}
+	fun getFavoriteRecord():ArrayList<ScholarshipData>{
+		val strSql = "select * from $TABLE_NAME_MAIN where $FAVORITE = 1"
+		val db = readableDatabase
+		val cursor = db.rawQuery(strSql, null)
+		val ret = ArrayList<ScholarshipData>()
+		cursor.moveToFirst()
+		while(!cursor.isAfterLast){
+			ret.add(
+				ScholarshipData(
+					cursor.getInt(0),
+					cursor.getString(1),
+					cursor.getString(2),
+					cursor.getInt(3),
+					cursor.getInt(4),
+					cursor.getInt(5),
+					cursor.getInt(6),
+					cursor.getInt(7),
+					cursor.getInt(8),
+					cursor.getString(9),
+					cursor.getString(10),
+					cursor.getString(11),
+					cursor.getString(12),
+					cursor.getString(13),
+					cursor.getString(14),
+					cursor.getString(15),
+					cursor.getString(16),
+					cursor.getString(17),
+					cursor.getString(18),
+					cursor.getString(19),
+					cursor.getString(20),
+					cursor.getInt(21) == 1
+				)
+			)
+			cursor.moveToNext()
+		}
+		cursor.close()
+		db.close()
+		return ret
+	}
+
+	fun updateFavorite(data : ScholarshipData):Boolean{
+		val sno = data.번호.toString()
+		val selected = data.selected
+		val db = readableDatabase
+		val strSql = "select * from $TABLE_NAME_MAIN where ${ScholarshipDBHelper.SNO} = $sno"
+		val cursor = db.rawQuery(strSql,null)
+		val flag =  cursor.count!=0
+		if(flag){
+			cursor.moveToFirst()
+			val values = ContentValues()
+			values.put(FAVORITE,!selected)
+			db.update(TABLE_NAME_MAIN,values,"${ScholarshipDBHelper.SNO}=?", arrayOf(sno))
+		}
+		cursor.close()
+		db.close()
+		return flag
+	}
 //	private fun showRecord(cursor: Cursor){
 //		cursor.moveToFirst()
 //		val attrcount = cursor.columnCount
