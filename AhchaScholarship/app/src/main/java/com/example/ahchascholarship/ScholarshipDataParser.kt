@@ -93,9 +93,28 @@ class ScholarshipDataParser {
 		return ret
 	}
 
+	public fun encodeFCat(dataString: String): Int {
+		var ret = 0
+		if (dataString.contains(F_CAT_5))
+			ret = ret.or(BIT_5)
+		if (dataString.contains(F_CAT_4))
+			ret = ret.or(BIT_4)
+		if (dataString.contains(F_CAT_3))
+			ret = ret.or(BIT_3)
+		if (dataString.contains(F_CAT_2))
+			ret = ret.or(BIT_2)
+		if (dataString.contains(F_CAT_1))
+			ret = ret.or(BIT_1)
+		if (dataString.contains(F_CAT_0))
+			ret = ret.or(BIT_0)
+		return ret
+	}
+
 	public fun encodeSCat1(dataString: String): Int {
 		var ret = 0
 		if (dataString.contains(S_CAT1_1))
+			ret = ret.or(BIT_1)
+		else
 			ret = ret.or(BIT_0)
 		return ret
 	}
@@ -117,22 +136,6 @@ class ScholarshipDataParser {
 		return ret
 	}
 
-	public fun encodeFCat(dataString: String): Int {
-		var ret = 0
-		if (dataString.contains(F_CAT_5))
-			ret = ret.or(BIT_5)
-		if (dataString.contains(F_CAT_4))
-			ret = ret.or(BIT_4)
-		if (dataString.contains(F_CAT_3))
-			ret = ret.or(BIT_3)
-		if (dataString.contains(F_CAT_2))
-			ret = ret.or(BIT_2)
-		if (dataString.contains(F_CAT_1))
-			ret = ret.or(BIT_1)
-		if (dataString.contains(F_CAT_0))
-			ret = ret.or(BIT_0)
-		return ret
-	}
 
 	public fun encodeSchoolCat(dataString: String): Int {
 		var ret = 0
@@ -213,11 +216,36 @@ class ScholarshipDataParser {
 		return ret
 	}
 
+
+	public fun decodeFCat(binaryData: Int) :String{
+
+		return if (binaryData.and(BIT_5) == BIT_5)
+			(F_CAT_5)
+		else {
+			if (binaryData.and(BIT_4) == BIT_4)
+				(F_CAT_4)
+			else {
+				if (binaryData.and(BIT_3) == BIT_3)
+					(F_CAT_3)
+				else {
+					if (binaryData.and(BIT_2) == BIT_2)
+						(F_CAT_2)
+					else {
+						if (binaryData.and(BIT_1) == BIT_1)
+							(F_CAT_1)
+						else
+							return (F_CAT_0)
+					}
+				}
+			}
+		}
+	}
+
 	public fun decodeSCat1(binaryData: Int): String {
 		return if (binaryData.and(BIT_0) == BIT_0)
-			S_CAT1_1
+			S_CAT1_0
 		else
-			(S_CAT1_0)
+			(S_CAT1_1)
 	}
 
 	public fun decodeSCat2(binaryData: Int): String {
@@ -244,30 +272,6 @@ class ScholarshipDataParser {
 		}
 	}
 
-
-	public fun decodeFCat(binaryData: Int) :String{
-
-		return if (binaryData.and(BIT_5) == BIT_5)
-			(F_CAT_5)
-		else {
-			if (binaryData.and(BIT_4) == BIT_4)
-				(F_CAT_4)
-			else {
-				if (binaryData.and(BIT_3) == BIT_3)
-					(F_CAT_3)
-				else {
-					if (binaryData.and(BIT_2) == BIT_2)
-						(F_CAT_2)
-					else {
-						if (binaryData.and(BIT_1) == BIT_1)
-							(F_CAT_1)
-						else
-							return (F_CAT_0)
-					}
-				}
-			}
-		}
-	}
 
 	public fun decodeSchoolCat(binaryData: Int) :ArrayList<String>{
 		var ret = ArrayList<String>()
