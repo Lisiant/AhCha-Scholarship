@@ -93,13 +93,16 @@ class Temp_DataTestingActivity : AppCompatActivity() {
 		var schoolCatBit:Int = 0
 		var yearBit:Int = 0
 		var departmentBit:Int = 0
-		fCatBit = F_CAT_대학교
+		fCatBit = SELECTALL //F_CAT_대학교
 		sCat1Bit = SELECTALL
 		sCat2Bit = SELECTALL
 		schoolCatBit = SELECTALL
-		yearBit = YEAR_대학신입생.or(YEAR_대학2학기) // or 연산으로 원하는 값들을 넣을 수 있음.
-		departmentBit = DEPT_공학계열.or(DEPT_사회계열)
-		val data = ScholarshipDBHelper(this).catSelector(fCatBit,sCat1Bit,sCat2Bit,schoolCatBit,yearBit,departmentBit)
+		yearBit = SELECTALL//YEAR_대학신입생.or(YEAR_대학2학기) // or 연산으로 원하는 값들을 넣을 수 있음.
+		departmentBit = SELECTALL//DEPT_공학계열.or(DEPT_사회계열)
+		val helper = ScholarshipDBHelper(this)
+		//helper.setFavorite(5)
+		//helper.resetFavorite()
+		val data = helper.catSelector(fCatBit,sCat1Bit,sCat2Bit,schoolCatBit,yearBit,departmentBit)
 		adapter = Temp_DataTestActivityAdapter(data)
 		binding.recyclerView.adapter = adapter
 	}

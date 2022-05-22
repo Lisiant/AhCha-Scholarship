@@ -53,6 +53,7 @@ class Temp_DataTestActivityAdapter(val items:ArrayList<ScholarshipData>)
 		holder.binding.e18.text = "자격제한: ".plus(items[position].자격제한)
 		holder.binding.e19.text = "추천필요여부: ".plus(items[position].추천필요여부)
 		holder.binding.e20.text = "제출서류: ".plus(items[position].제출서류)
+		holder.binding.e21.text = "Favorite: ".plus(items[position].selected)
 	}
 }
 

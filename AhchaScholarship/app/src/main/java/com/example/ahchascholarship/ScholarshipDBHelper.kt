@@ -10,6 +10,7 @@ import android.view.Gravity
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.core.database.getStringOrNull
+import java.lang.Math.random
 
 /* =================Table==================== */
 //
@@ -136,7 +137,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		val FAVORITE = "관심등록"
 	}
 	fun getAllRecord():ArrayList<ScholarshipData>{
-		val strSql = "select * from $TABLE_NAME_MAIN where $SNO > 100"
+		val strSql = "select * from $TABLE_NAME_MAIN"
 		val db = readableDatabase
 		val cursor = db.rawQuery(strSql, null)
 		val ret = ArrayList<ScholarshipData>()
@@ -367,6 +368,47 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		cursor.close()
 		db.close()
 		return ret
+	}
+	fun setFavorite(num: Int){
+		var strSql = "select * from $TABLE_NAME_MAIN"
+		var db = readableDatabase
+		var cursor = db.rawQuery(strSql, null)
+		val snos = ArrayList<Int>()
+		var count = -1
+		cursor.moveToFirst()
+		while(!cursor.isAfterLast){
+			snos.add(cursor.getInt(0))
+			cursor.moveToNext()
+		}
+		cursor.close()
+		db.close()
+		db = writableDatabase
+		strSql = "select * from $TABLE_NAME_MAIN"
+		cursor = db.rawQuery(strSql, null)
+		cursor.moveToFirst()
+		val flag = cursor.count!=0
+		while(++count<num) {
+			val changeSNO = snos.random()
+			if (flag) {
+				val values = ContentValues()
+				values.put(FAVORITE, 1)
+				db.update(
+					TABLE_NAME_MAIN,
+					values,
+					"$SNO=?",
+					arrayOf(changeSNO.toString())
+				)
+			}
+		}
+		cursor.close()
+		db.close()
+	}
+
+	fun resetFavorite() {
+		val db = writableDatabase
+		val strSql = "update $TABLE_NAME_MAIN set $FAVORITE = 0;"
+		val cursor = db.execSQL(strSql)
+		db.close()
 	}
 	fun getFavoriteRecord():ArrayList<ScholarshipData>{
 		val strSql = "select * from $TABLE_NAME_MAIN where $FAVORITE = 1"
