@@ -135,6 +135,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		val RECOMMEND = "추천필요여부"
 		val PAPERWORK = "제출서류"
 		val FAVORITE = "관심등록"
+		val ALARMCHECK = "알람체크"
 	}
 	fun getAllRecord():ArrayList<ScholarshipData>{
 		val strSql = "select * from $TABLE_NAME_MAIN"
@@ -166,7 +167,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 					cursor.getString(18),
 					cursor.getString(19),
 					cursor.getString(20),
-					cursor.getInt(21) == 1
+					cursor.getInt(21) == 1,
+					cursor.getInt(22) == 1
 				)
 			)
 			cursor.moveToNext()
@@ -200,10 +202,14 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		values.put(SPEC_RESTRICT, scholarshipData.자격제한)
 		values.put(RECOMMEND, scholarshipData.추천필요여부)
 		values.put(PAPERWORK, scholarshipData.제출서류)
-		if(scholarshipData.selected)
+		if(scholarshipData.favorite)
 			values.put(FAVORITE, 1)
 		else
 			values.put(FAVORITE, 0)
+		if(scholarshipData.alarmCheck)
+			values.put(ALARMCHECK, 1)
+		else
+			values.put(ALARMCHECK, 0)
 		flag = db.insert(TABLE_NAME_MAIN, "", values)>0
 		db.close()
 		return flag
@@ -235,10 +241,14 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 			values.put(SPEC_RESTRICT, scholarshipData.자격제한)
 			values.put(RECOMMEND, scholarshipData.추천필요여부)
 			values.put(PAPERWORK, scholarshipData.제출서류)
-			if(scholarshipData.selected)
+			if(scholarshipData.favorite)
 				values.put(FAVORITE, 1)
 			else
 				values.put(FAVORITE, 0)
+			if(scholarshipData.alarmCheck)
+				values.put(ALARMCHECK, 1)
+			else
+				values.put(ALARMCHECK, 0)
 			flag = db.insert(TABLE_NAME_MAIN, "", values)>0
 		}
 		db.close()
@@ -267,7 +277,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 				"$SPEC_RESTRICT text, " +
 				"$RECOMMEND text, " +
 				"$PAPERWORK text," +
-				"$FAVORITE integer default 0);"
+				"$FAVORITE integer default 0," +
+				"$ALARMCHECK integer default 0);"
 		db!!.execSQL(create_table_main)
 	}
 
@@ -321,7 +332,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 					cursor.getString(18),
 					cursor.getString(19),
 					cursor.getString(20),
-					cursor.getInt(21) == 1
+					cursor.getInt(21) == 1,
+					cursor.getInt(22) == 1
 				)
 			)
 			cursor.moveToNext()
@@ -360,7 +372,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 					cursor.getString(18),
 					cursor.getString(19),
 					cursor.getString(20),
-					cursor.getInt(21) == 1
+					cursor.getInt(21) == 1,
+					cursor.getInt(22) == 1
 				)
 			)
 			cursor.moveToNext()
@@ -440,7 +453,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 					cursor.getString(18),
 					cursor.getString(19),
 					cursor.getString(20),
-					cursor.getInt(21) == 1
+					cursor.getInt(21) == 1,
+					cursor.getInt(22) == 1
 				)
 			)
 			cursor.moveToNext()
@@ -452,7 +466,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 
 	fun updateFavorite(data : ScholarshipData):Boolean{
 		val sno = data.번호.toString()
-		val selected = data.selected
+		val selected = data.favorite
 		val db = readableDatabase
 		val strSql = "select * from $TABLE_NAME_MAIN where ${ScholarshipDBHelper.SNO} = $sno"
 		val cursor = db.rawQuery(strSql,null)
