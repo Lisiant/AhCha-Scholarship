@@ -24,6 +24,7 @@ data class ScholarshipData (var 번호 :Int,
 						   var 자격제한 :String,
 						   var 추천필요여부 :String,
 						   var 제출서류 :String,
-						   var selected :Boolean): Serializable
+							var favorite :Boolean,
+							var alarmCheck :Boolean): Serializable
 
 data class StartEndDate(var start: Date, var end: Date)

@@ -10,6 +10,7 @@ import android.view.Gravity
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.core.database.getStringOrNull
+import java.lang.Math.random
 
 /* =================Table==================== */
 //
@@ -134,9 +135,10 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		val RECOMMEND = "추천필요여부"
 		val PAPERWORK = "제출서류"
 		val FAVORITE = "관심등록"
+		val ALARMCHECK = "알람체크"
 	}
 	fun getAllRecord():ArrayList<ScholarshipData>{
-		val strSql = "select * from $TABLE_NAME_MAIN where $SNO > 100"
+		val strSql = "select * from $TABLE_NAME_MAIN"
 		val db = readableDatabase
 		val cursor = db.rawQuery(strSql, null)
 		val ret = ArrayList<ScholarshipData>()
@@ -165,7 +167,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 					cursor.getString(18),
 					cursor.getString(19),
 					cursor.getString(20),
-					cursor.getInt(21) == 1
+					cursor.getInt(21) == 1,
+					cursor.getInt(22) == 1
 				)
 			)
 			cursor.moveToNext()
@@ -199,10 +202,14 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		values.put(SPEC_RESTRICT, scholarshipData.자격제한)
 		values.put(RECOMMEND, scholarshipData.추천필요여부)
 		values.put(PAPERWORK, scholarshipData.제출서류)
-		if(scholarshipData.selected)
+		if(scholarshipData.favorite)
 			values.put(FAVORITE, 1)
 		else
 			values.put(FAVORITE, 0)
+		if(scholarshipData.alarmCheck)
+			values.put(ALARMCHECK, 1)
+		else
+			values.put(ALARMCHECK, 0)
 		flag = db.insert(TABLE_NAME_MAIN, "", values)>0
 		db.close()
 		return flag
@@ -234,10 +241,14 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 			values.put(SPEC_RESTRICT, scholarshipData.자격제한)
 			values.put(RECOMMEND, scholarshipData.추천필요여부)
 			values.put(PAPERWORK, scholarshipData.제출서류)
-			if(scholarshipData.selected)
+			if(scholarshipData.favorite)
 				values.put(FAVORITE, 1)
 			else
 				values.put(FAVORITE, 0)
+			if(scholarshipData.alarmCheck)
+				values.put(ALARMCHECK, 1)
+			else
+				values.put(ALARMCHECK, 0)
 			flag = db.insert(TABLE_NAME_MAIN, "", values)>0
 		}
 		db.close()
@@ -266,7 +277,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 				"$SPEC_RESTRICT text, " +
 				"$RECOMMEND text, " +
 				"$PAPERWORK text," +
-				"$FAVORITE integer default 0);"
+				"$FAVORITE integer default 0," +
+				"$ALARMCHECK integer default 0);"
 		db!!.execSQL(create_table_main)
 	}
 
@@ -320,7 +332,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 					cursor.getString(18),
 					cursor.getString(19),
 					cursor.getString(20),
-					cursor.getInt(21) == 1
+					cursor.getInt(21) == 1,
+					cursor.getInt(22) == 1
 				)
 			)
 			cursor.moveToNext()
@@ -359,7 +372,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 					cursor.getString(18),
 					cursor.getString(19),
 					cursor.getString(20),
-					cursor.getInt(21) == 1
+					cursor.getInt(21) == 1,
+					cursor.getInt(22) == 1
 				)
 			)
 			cursor.moveToNext()
@@ -367,6 +381,47 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		cursor.close()
 		db.close()
 		return ret
+	}
+	fun setFavorite(num: Int){
+		var strSql = "select * from $TABLE_NAME_MAIN"
+		var db = readableDatabase
+		var cursor = db.rawQuery(strSql, null)
+		val snos = ArrayList<Int>()
+		var count = -1
+		cursor.moveToFirst()
+		while(!cursor.isAfterLast){
+			snos.add(cursor.getInt(0))
+			cursor.moveToNext()
+		}
+		cursor.close()
+		db.close()
+		db = writableDatabase
+		strSql = "select * from $TABLE_NAME_MAIN"
+		cursor = db.rawQuery(strSql, null)
+		cursor.moveToFirst()
+		val flag = cursor.count!=0
+		while(++count<num) {
+			val changeSNO = snos.random()
+			if (flag) {
+				val values = ContentValues()
+				values.put(FAVORITE, 1)
+				db.update(
+					TABLE_NAME_MAIN,
+					values,
+					"$SNO=?",
+					arrayOf(changeSNO.toString())
+				)
+			}
+		}
+		cursor.close()
+		db.close()
+	}
+
+	fun resetFavorite() {
+		val db = writableDatabase
+		val strSql = "update $TABLE_NAME_MAIN set $FAVORITE = 0;"
+		val cursor = db.execSQL(strSql)
+		db.close()
 	}
 	fun getFavoriteRecord():ArrayList<ScholarshipData>{
 		val strSql = "select * from $TABLE_NAME_MAIN where $FAVORITE = 1"
@@ -398,7 +453,8 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 					cursor.getString(18),
 					cursor.getString(19),
 					cursor.getString(20),
-					cursor.getInt(21) == 1
+					cursor.getInt(21) == 1,
+					cursor.getInt(22) == 1
 				)
 			)
 			cursor.moveToNext()
@@ -410,7 +466,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 
 	fun updateFavorite(data : ScholarshipData):Boolean{
 		val sno = data.번호.toString()
-		val selected = data.selected
+		val selected = data.favorite
 		val db = readableDatabase
 		val strSql = "select * from $TABLE_NAME_MAIN where ${ScholarshipDBHelper.SNO} = $sno"
 		val cursor = db.rawQuery(strSql,null)

@@ -36,7 +36,7 @@ class FavoriteFragment : Fragment() {
             1,1,1,1,1,
             1,"성적기준","소득기준","지원금액",
             "특정자격","지역거주여부","신청시작","신청마감","선발방법","선별인원",
-            "자격제한","추천필요여부","제출서류", false)
+            "자격제한","추천필요여부","제출서류", false, false)
         data.add(scholarshipdata)
         data.add(scholarshipdata)
         data.add(scholarshipdata)

@@ -101,6 +101,7 @@ class MainActivity : AppCompatActivity() {
                         scholarship[17].removePrefix(" - ").trim(),
                         scholarship[18].removePrefix(" - ").trim(),
                         scholarship[19].removePrefix(" - ").trim(),
+                        false,
                         false
                     )
                 )
