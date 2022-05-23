@@ -4,10 +4,18 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/drawable/bnv_color_selector.xml" value="0.1605" />
+        <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/drawable/ic_baseline_access_time_24.xml" value="0.1605" />
+        <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/drawable/ic_baseline_calendar_today_24.xml" value="0.1605" />
+        <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.1605" />
+        <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/drawable/ic_baseline_school_24.xml" value="0.1605" />
+        <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/drawable/ic_baseline_star_24.xml" value="0.1605" />
+        <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/drawable/round_border.xml" value="0.1605" />
+        <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/layout/activity_detail_scholarship.xml" value="0.2898550724637681" />
         <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/layout/fragment_favorite.xml" value="0.2898550724637681" />
         <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/layout/fragment_outdoor.xml" value="0.2898550724637681" />
-        <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/layout/fragment_scholarship.xml" value="0.2898550724637681" />
+        <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/layout/fragment_scholarship.xml" value="0.33" />
+        <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/layout/item_scholarship.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36822916666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2796875" />
         <entry key="app/src/main/res/layout/favorite.xml" value="0.19375" />

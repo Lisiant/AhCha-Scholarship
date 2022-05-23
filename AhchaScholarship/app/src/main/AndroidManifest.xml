@@ -15,6 +15,9 @@
             android:exported="true"></receiver>
 
         <activity
+            android:name=".DetailScholarshipActivity"
+            android:exported="false" />
+        <activity
             android:name=".Temp_DataTestingActivity"
             android:exported="false" />
         <activity
