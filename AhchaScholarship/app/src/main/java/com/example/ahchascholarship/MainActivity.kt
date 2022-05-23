@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 //        tempdata.신청마감 = "2022-05-24"
 //        tempdata.번호 = 994
 //        scholarshipDBHelper.insertData(tempdata)
-        val temps = "-09-00-00"
+        val temps = "-09-00-0"
         //scholarshipDBHelper.setAllFavoriteAlarm()
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         val alarmable = scholarshipDBHelper.getAlarmableContents()
@@ -179,8 +179,8 @@ class MainActivity : AppCompatActivity() {
                     scholarship[17].removePrefix(" - ").trim(),
                     scholarship[18].removePrefix(" - ").trim(),
                     scholarship[19].removePrefix(" - ").trim(),
-                    true,
-                    true
+                    false,
+                    false
                 )
             )
         }
