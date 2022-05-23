@@ -1,6 +1,7 @@
 package com.example.ahchascholarship
 
 import android.icu.text.SimpleDateFormat
+import android.widget.Toast
 import java.lang.Exception
 import java.text.ParseException
 import java.util.*
@@ -349,6 +350,13 @@ class ScholarshipDataParser {
 			ret.add(YEAR_1)
 		if (binaryData.and(BIT_0) == BIT_0)
 			ret.add(YEAR_0)
+		return ret
+	}
+
+	fun calculateDateBetween(start:String, end:String):Long
+	{
+		var ret :Long= 0
+		ret = ((dateFormat.parse(end).getTime()/(3600*24*1000) - dateFormat.parse(start).getTime()/(3600*24*1000)))
 		return ret
 	}
 }

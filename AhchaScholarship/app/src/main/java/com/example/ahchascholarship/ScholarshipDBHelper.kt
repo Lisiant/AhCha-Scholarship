@@ -255,6 +255,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		return flag
 	}
 	override fun onCreate(db: SQLiteDatabase?) {
+		val drop_table_main = "drop table $TABLE_NAME_MAIN;"
 		val create_table_main = "create table if not exists $TABLE_NAME_MAIN("+
 				"$SNO integer primary key," +
 				"$FOUNDATION text," +
@@ -279,6 +280,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 				"$PAPERWORK text," +
 				"$FAVORITE integer default 0," +
 				"$ALARMCHECK integer default 0);"
+		db!!.execSQL(drop_table_main)
 		db!!.execSQL(create_table_main)
 	}
 
@@ -416,11 +418,59 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		cursor.close()
 		db.close()
 	}
+	fun getAlarmableContents():ArrayList<ScholarshipData>{
+		val strsql = "select * from $TABLE_NAME_MAIN where $FAVORITE == 1 and $ALARMCHECK == 1;"
+		val db = readableDatabase
+		val cursor = db.rawQuery(strsql, null)
+		val ret = ArrayList<ScholarshipData>()
+		cursor.moveToFirst()
+		while(!cursor.isAfterLast){
+			ret.add(
+				ScholarshipData(
+					cursor.getInt(0),
+					cursor.getString(1),
+					cursor.getString(2),
+					cursor.getInt(3),
+					cursor.getInt(4),
+					cursor.getInt(5),
+					cursor.getInt(6),
+					cursor.getInt(7),
+					cursor.getInt(8),
+					cursor.getString(9),
+					cursor.getString(10),
+					cursor.getString(11),
+					cursor.getString(12),
+					cursor.getString(13),
+					cursor.getString(14),
+					cursor.getString(15),
+					cursor.getString(16),
+					cursor.getString(17),
+					cursor.getString(18),
+					cursor.getString(19),
+					cursor.getString(20),
+					cursor.getInt(21) == 1,
+					cursor.getInt(22) == 1
+				)
+			)
+			cursor.moveToNext()
+		}
+		cursor.close()
+		db.close()
+		return ret
+	}
+	fun setAllFavoriteAlarm(){
+		val db = writableDatabase
+		val strSql1 = "update $TABLE_NAME_MAIN set $FAVORITE = 1;"
+		val strSql2 = "update $TABLE_NAME_MAIN set $ALARMCHECK = 1;"
+		db.execSQL(strSql1)
+		db.execSQL(strSql2)
+		db.close()
+	}
 
 	fun resetFavorite() {
 		val db = writableDatabase
 		val strSql = "update $TABLE_NAME_MAIN set $FAVORITE = 0;"
-		val cursor = db.execSQL(strSql)
+		db.execSQL(strSql)
 		db.close()
 	}
 	fun getFavoriteRecord():ArrayList<ScholarshipData>{
