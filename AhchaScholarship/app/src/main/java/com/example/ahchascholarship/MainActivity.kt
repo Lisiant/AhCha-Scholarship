@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.widget.Toast
 import com.example.ahchascholarship.alarmhelper.AlarmReceiver
 import com.example.ahchascholarship.databinding.ActivityMainBinding
@@ -25,6 +26,8 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var scholarshipDBHelper: ScholarshipDBHelper
     val scholarshipDataList = ArrayList<ScholarshipData>()
+    lateinit var outdoorDBHelper: OutdoorDBHelper
+    val outdoorActivityDataList = ArrayList<OutdoorActivityData>()
     val dataIOScope = CoroutineScope(Dispatchers.IO)
     val DBParser = ScholarshipDataParser()
 
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initBottomNavigation()
+        initOutdoorData()
         initScholarshipData()
         initAlarm()
 
@@ -195,5 +199,46 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("scholar", scholarshipDataList)
             startActivity(intent)
         }
+    }
+
+    private fun initOutdoorData(){
+        outdoorDBHelper = OutdoorDBHelper(this)
+        outdoorActivityDataList.clear()
+        val FStream = InputStreamReader(getResources().openRawResource(R.raw.outdoordata));
+        val reader = BufferedReader(FStream);
+        val read = CSVReader(reader)
+        read.readNext()
+        for (outdoor in read) {
+            val startDate = OutdoorDataParser().stringToDate(outdoor[6])
+            val endDate = OutdoorDataParser().stringToDate(outdoor[7])
+            if (endDate.before(OutdoorDataParser.dateFormat.parse("2022-05-27"))) {
+                outdoorActivityDataList.add(
+                    OutdoorActivityData(
+                        outdoor[0].removePrefix(" - ").trim().replace(",", "").toInt(),
+                        outdoor[1].removePrefix(" - ").trim(),
+                        outdoor[2].removePrefix(" - ").trim(),
+                        OutdoorDataParser().encodeFCat(outdoor[3].removePrefix(" - ").trim()),
+                        OutdoorDataParser().encodeSCat(outdoor[4].removePrefix(" - ").trim()),
+                        OutdoorDataParser().encodeDepartment(outdoor[5].removePrefix(" - ").trim()),
+                        SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(startDate),
+                        SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(endDate),
+                        outdoor[8].removePrefix(" - ").trim(),
+                        outdoor[9].removePrefix(" - ").trim(),
+                    )
+                )
+            }
+        }
+        read.close()
+        reader.close()
+        FStream.close()
+        for(outdoorActivity in outdoorActivityDataList) {
+            outdoorDBHelper.insertData(outdoorActivity)
+            Log.d("abc" , "true")
+        }
+//        binding.DataTestBtn2.setOnClickListener {
+//            val intent = Intent(this, Temp_DataTestingActivity::class.java)
+//            intent.putExtra("outdoor", outdoorActivityDataList)
+//            startActivity(intent)
+//        }
     }
 }

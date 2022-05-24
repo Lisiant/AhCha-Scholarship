@@ -255,7 +255,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		return flag
 	}
 	override fun onCreate(db: SQLiteDatabase?) {
-		val drop_table_main = "drop table $TABLE_NAME_MAIN;"
+//		val drop_table_main = "drop table $TABLE_NAME_MAIN;"
 		val create_table_main = "create table if not exists $TABLE_NAME_MAIN("+
 				"$SNO integer primary key," +
 				"$FOUNDATION text," +
@@ -280,7 +280,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 				"$PAPERWORK text," +
 				"$FAVORITE integer default 0," +
 				"$ALARMCHECK integer default 0);"
-		db!!.execSQL(drop_table_main)
+//		db!!.execSQL(drop_table_main)
 		db!!.execSQL(create_table_main)
 	}
 

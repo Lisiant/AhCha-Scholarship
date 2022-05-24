@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 
 /* =================Table==================== */
 //
@@ -62,7 +63,7 @@ class OutdoorDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB_NAM
         val SNO = "SNO"
         val S_NAME = "활동이름"
         val FOUNDATION = "운영기관명"
-        val FOUNDATION_CAT = "운영기관종류" // 복호화 함수: ScholarshipDataParser().decodeFCat
+        val FOUNDATION_CAT = "FOUNDATIONCAT" // 복호화 함수: ScholarshipDataParser().decodeFCat
         val S_CAT = "활동종류" // 복호화 함수: ScholarshipDataParser().decodeSCat1
         val DEPARTMENT = "활동내용계열" // 복호화 함수: ScholarshipDataParser().decodeDepartment
         val DATE_START = "신청시작"
@@ -71,8 +72,8 @@ class OutdoorDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB_NAM
         val DETAIL = "상세"
     }
     override fun onCreate(db: SQLiteDatabase?) {
-       // val drop_table_main = "drop table ${TABLE_NAME_MAIN};"
-        val create_table_main = "create table if not exists ${TABLE_NAME_MAIN}("+
+        val drop_table_main = "drop table ${TABLE_NAME_MAIN};"
+        val create_table_main = "create table if not exists ${OutdoorDBHelper.TABLE_NAME_MAIN}("+
                 "${SNO} integer primary key," +
                 "${S_NAME} text," +
                 "${FOUNDATION} text," +
@@ -83,7 +84,7 @@ class OutdoorDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB_NAM
                 "${DATE_END} text, " +
                 "${SITE_LINK} text," +
                 "${DETAIL} text);"
-       // db!!.execSQL(drop_table_main)
+        db!!.execSQL(drop_table_main)
         db!!.execSQL(create_table_main)
     }
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVirsion: Int) {

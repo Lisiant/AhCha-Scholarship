@@ -1,5 +1,7 @@
 package com.example.ahchascholarship
 
+import java.util.*
+
 data class OutdoorActivityData(
 	var 번호 :Int,
 	var 활동이름 :String,
