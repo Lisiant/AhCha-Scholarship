@@ -49,7 +49,7 @@ class OutdoorDataParser {
         try {
             date = dateFormat.parse(dateString.trim())
         } catch (e: ParseException) {
-            return Date()
+            return Date(null)
         }
         return date
     }

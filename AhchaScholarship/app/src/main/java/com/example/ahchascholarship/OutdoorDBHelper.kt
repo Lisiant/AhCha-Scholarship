@@ -55,7 +55,7 @@ import android.util.Log
 //
 
 class OutdoorDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
-    companion object{ // 변수를 스테틱으로 만들어버려
+    companion object{
         val DB_NAME = "outdoor.db"
         val DB_VERSION = 1
         val TABLE_NAME_MAIN = "outdoorMain"
@@ -64,7 +64,7 @@ class OutdoorDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB_NAM
         val S_NAME = "활동이름"
         val FOUNDATION = "운영기관명"
         val FOUNDATION_CAT = "FOUNDATIONCAT" // 복호화 함수: ScholarshipDataParser().decodeFCat
-        val S_CAT = "활동종류" // 복호화 함수: ScholarshipDataParser().decodeSCat1
+        val S_CAT = "활동종류" // 복호화 함수: ScholarshipDataParser().decodeSCat
         val DEPARTMENT = "활동내용계열" // 복호화 함수: ScholarshipDataParser().decodeDepartment
         val DATE_START = "신청시작"
         val DATE_END = "신청마감"
@@ -72,7 +72,7 @@ class OutdoorDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB_NAM
         val DETAIL = "상세"
     }
     override fun onCreate(db: SQLiteDatabase?) {
-        val drop_table_main = "drop table ${TABLE_NAME_MAIN};"
+        val drop_table_main = "drop table ${TABLE_NAME_MAIN};"  //처음 생성시 table 없어서 에러 뜸
         val create_table_main = "create table if not exists ${OutdoorDBHelper.TABLE_NAME_MAIN}("+
                 "${SNO} integer primary key," +
                 "${S_NAME} text," +
