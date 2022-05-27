@@ -467,6 +467,16 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		db.close()
 	}
 
+	fun setFavorite(sno :Int, onOff:Boolean) {
+		val db = writableDatabase
+		var setVal = 0
+		if(onOff)
+			setVal = 1
+		val strSql = "update $TABLE_NAME_MAIN set $FAVORITE = $setVal, $ALARMCHECK = $setVal where $SNO = $sno;"
+		db.execSQL(strSql)
+		db.close()
+	}
+
 	fun resetFavorite() {
 		val db = writableDatabase
 		val strSql = "update $TABLE_NAME_MAIN set $FAVORITE = 0;"
