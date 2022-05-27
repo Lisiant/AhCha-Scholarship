@@ -210,7 +210,7 @@ class MainActivity : AppCompatActivity() {
         read.readNext()
         for (outdoor in read) {
             val startDate = OutdoorDataParser().stringToDate(outdoor[6])
-            val endDate = OutdoorDataParser().stringToDate(outdoor[7])
+            val endDate = OutdoorDataParser().stringToDate(outdoor[7])?:continue
             if (endDate.before(OutdoorDataParser.dateFormat.parse("2022-05-27"))) {
                 outdoorActivityDataList.add(
                     OutdoorActivityData(
@@ -233,7 +233,6 @@ class MainActivity : AppCompatActivity() {
         FStream.close()
         for(outdoorActivity in outdoorActivityDataList) {
             outdoorDBHelper.insertData(outdoorActivity)
-            Log.d("abc" , "true")
         }
 //        binding.DataTestBtn2.setOnClickListener {
 //            val intent = Intent(this, Temp_DataTestingActivity::class.java)
