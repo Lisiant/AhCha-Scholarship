@@ -518,14 +518,20 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		val sno = data.번호.toString()
 		val selected = data.favorite
 		val db = readableDatabase
-		val strSql = "select * from $TABLE_NAME_MAIN where ${ScholarshipDBHelper.SNO} = $sno"
+		val strSql = "select * from $TABLE_NAME_MAIN where ${SNO} = $sno"
 		val cursor = db.rawQuery(strSql,null)
 		val flag =  cursor.count!=0
 		if(flag){
 			cursor.moveToFirst()
 			val values = ContentValues()
-			values.put(FAVORITE,!selected)
-			db.update(TABLE_NAME_MAIN,values,"${ScholarshipDBHelper.SNO}=?", arrayOf(sno))
+			if(selected){
+				values.put(FAVORITE,0)
+			}
+			else{
+				values.put(FAVORITE,1)
+			}
+
+			db.update(TABLE_NAME_MAIN,values,"${SNO}=?", arrayOf(sno))
 		}
 		cursor.close()
 		db.close()

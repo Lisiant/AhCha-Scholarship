@@ -12,8 +12,9 @@ import com.example.myapplication.FavoriteAdapter
 
 class FavoriteFragment : Fragment() {
     lateinit var favoriteAdapter:FavoriteAdapter
+    lateinit var db:ScholarshipDBHelper
     val snapHelper = PagerSnapHelper()
-    val data :ArrayList<ScholarshipData> = ArrayList()
+    var data :ArrayList<ScholarshipData> = ArrayList()
 
 
     var binding:FragmentFavoriteBinding?=null
@@ -37,15 +38,19 @@ class FavoriteFragment : Fragment() {
             1,"성적기준","소득기준","지원금액",
             "특정자격","지역거주여부","신청시작","신청마감","선발방법","선별인원",
             "자격제한","추천필요여부","제출서류", false, false)
-        data.add(scholarshipdata)
-        data.add(scholarshipdata)
-        data.add(scholarshipdata)
+        db = ScholarshipDBHelper(context)
+        data = db.getFavoriteRecord()
         binding!!.favoriteRecyclerView.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
         favoriteAdapter = FavoriteAdapter(data)
+        favoriteAdapter.itemClickListener = object : FavoriteAdapter.OnItemClickListener{
+            override fun OnItemClick(data: ScholarshipData, position: Int) {
+                db.updateFavorite(data)
+                favoriteAdapter.notifyItemChanged(position)
+            }
+        }
         snapHelper.attachToRecyclerView(binding!!.favoriteRecyclerView)
         binding!!.favoriteRecyclerView.adapter = favoriteAdapter
         binding!!.apply{
-
         }
     }
 
@@ -53,5 +58,6 @@ class FavoriteFragment : Fragment() {
         super.onDestroyView()
         binding = null
     }
+
 
 }
