@@ -1,6 +1,7 @@
 package com.example.ahchascholarship
 
 import android.icu.text.SimpleDateFormat
+import org.apache.commons.lang3.ObjectUtils
 import java.lang.Exception
 import java.text.ParseException
 import java.util.*
@@ -44,12 +45,12 @@ class OutdoorDataParser {
         val BIT_0 = 0x1
     }
 
-    public fun stringToDate(dateString: String): Date {
+    public fun stringToDate(dateString: String): Date? {
         val date:Date
         try {
             date = dateFormat.parse(dateString.trim())
         } catch (e: ParseException) {
-            return Date(null)
+            return null
         }
         return date
     }
