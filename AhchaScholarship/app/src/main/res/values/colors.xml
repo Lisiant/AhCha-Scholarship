@@ -2,6 +2,7 @@
 <resources>
     <color name="AhCha">#6adcc5</color>
     <color name="gray">#a8a8a8</color>
+    <color name="yellow">#f7c70b</color>
     <color name="transparent">#00FF0000</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
