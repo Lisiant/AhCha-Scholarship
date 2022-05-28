@@ -255,7 +255,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		return flag
 	}
 	override fun onCreate(db: SQLiteDatabase?) {
-		val drop_table_main = "drop table $TABLE_NAME_MAIN;"
+//		val drop_table_main = "drop table $TABLE_NAME_MAIN;"
 		val create_table_main = "create table if not exists $TABLE_NAME_MAIN("+
 				"$SNO integer primary key," +
 				"$FOUNDATION text," +
@@ -280,7 +280,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 				"$PAPERWORK text," +
 				"$FAVORITE integer default 0," +
 				"$ALARMCHECK integer default 0);"
-		db!!.execSQL(drop_table_main)
+//		db!!.execSQL(drop_table_main)
 		db!!.execSQL(create_table_main)
 	}
 
@@ -467,6 +467,16 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		db.close()
 	}
 
+	fun setFavorite(sno :Int, onOff:Boolean) {
+		val db = writableDatabase
+		var setVal = 0
+		if(onOff)
+			setVal = 1
+		val strSql = "update $TABLE_NAME_MAIN set $FAVORITE = $setVal, $ALARMCHECK = $setVal where $SNO = $sno;"
+		db.execSQL(strSql)
+		db.close()
+	}
+
 	fun resetFavorite() {
 		val db = writableDatabase
 		val strSql = "update $TABLE_NAME_MAIN set $FAVORITE = 0;"
@@ -518,14 +528,20 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		val sno = data.번호.toString()
 		val selected = data.favorite
 		val db = readableDatabase
-		val strSql = "select * from $TABLE_NAME_MAIN where ${ScholarshipDBHelper.SNO} = $sno"
+		val strSql = "select * from $TABLE_NAME_MAIN where ${SNO} = $sno"
 		val cursor = db.rawQuery(strSql,null)
 		val flag =  cursor.count!=0
 		if(flag){
 			cursor.moveToFirst()
 			val values = ContentValues()
-			values.put(FAVORITE,!selected)
-			db.update(TABLE_NAME_MAIN,values,"${ScholarshipDBHelper.SNO}=?", arrayOf(sno))
+			if(selected){
+				values.put(FAVORITE,0)
+			}
+			else{
+				values.put(FAVORITE,1)
+			}
+
+			db.update(TABLE_NAME_MAIN,values,"${SNO}=?", arrayOf(sno))
 		}
 		cursor.close()
 		db.close()

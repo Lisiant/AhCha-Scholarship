@@ -45,7 +45,9 @@ class FavoriteAdapter(val items:ArrayList<ScholarshipData>) :RecyclerView.Adapte
         val str21 = itemView.findViewById<TextView>(R.id.favoriteStr21)
 
         init {
-
+            binding.favoriteBtn.setOnClickListener {
+                itemClickListener?.OnItemClick(items[adapterPosition],adapterPosition)
+            }
         }
     }
 
