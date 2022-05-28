@@ -84,7 +84,7 @@ class OutdoorDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB_NAM
                 "${DATE_END} text, " +
                 "${SITE_LINK} text," +
                 "${DETAIL} text);"
-        db!!.execSQL(drop_table_main)
+       // db!!.execSQL(drop_table_main)
         db!!.execSQL(create_table_main)
     }
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVirsion: Int) {
