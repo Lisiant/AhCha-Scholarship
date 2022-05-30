@@ -10,6 +10,10 @@ import android.view.Gravity
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.core.database.getStringOrNull
+import com.example.ahchascholarship.ScholarshipDBHelper.Companion.ALARMCHECK
+import com.example.ahchascholarship.ScholarshipDBHelper.Companion.FAVORITE
+import com.example.ahchascholarship.ScholarshipDBHelper.Companion.SCHOOL_CAT
+import com.example.ahchascholarship.ScholarshipDBHelper.Companion.S_CAT2
 import java.lang.Math.random
 
 /* =================Table==================== */
@@ -344,6 +348,45 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 		db.close()
 		return ret
 	}
+
+	fun findScholarshipBySno(sno: Int): ScholarshipData {
+		val strsql = "select * from $TABLE_NAME_MAIN where $SNO == $sno"
+		val db = readableDatabase
+		val cursor = db.rawQuery(strsql, null)
+		cursor.moveToFirst()
+		val data = ScholarshipData(
+			cursor.getInt(0),
+			cursor.getString(1),
+			cursor.getString(2),
+			cursor.getInt(3),
+			cursor.getInt(4),
+			cursor.getInt(5),
+			cursor.getInt(6),
+			cursor.getInt(7),
+			cursor.getInt(8),
+			cursor.getString(9),
+			cursor.getString(10),
+			cursor.getString(11),
+			cursor.getString(12),
+			cursor.getString(13),
+			cursor.getString(14),
+			cursor.getString(15),
+			cursor.getString(16),
+			cursor.getString(17),
+			cursor.getString(18),
+			cursor.getString(19),
+			cursor.getString(20),
+			cursor.getInt(21) == 1,
+			cursor.getInt(22) == 1
+		)
+		cursor.moveToNext()
+		cursor.close()
+		db.close()
+		return data
+	}
+
+
+
 	fun catSelector(fCatBit: Int, sCat1Bit: Int, sCat2Bit: Int, schoolCatBit: Int, yearBit: Int, departmentBit: Int): ArrayList<ScholarshipData> { // 특정 문자열로 시작하는 제품들 나열
 		val strsql = "select * from $TABLE_NAME_MAIN where $FOUNDATION_CAT & $fCatBit==$fCatBit and $S_CAT & $sCat1Bit == $sCat1Bit and $S_CAT2 & $sCat2Bit == $sCat2Bit and $SCHOOL_CAT & $schoolCatBit == $schoolCatBit and $YEAR & $yearBit == $yearBit and $DEPARTMENT & $departmentBit == $departmentBit"
 		val db = readableDatabase

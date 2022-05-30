@@ -11,24 +11,30 @@ class ScholarshipRVAdapter(val items: ArrayList<ScholarshipData>) :
 
     interface OnItemClickListener {
         fun onItemClick(scholarshipData: ScholarshipData)
-        fun applyFavorite(position: Int)
+        fun clickFavorite(scholarshipData: ScholarshipData, position: Int)
 
     }
 
     private lateinit var scholarshipItemClickListener: OnItemClickListener
-    fun setScholarshipItemClickListener(itemClickListener: OnItemClickListener){
+    fun setScholarshipItemClickListener(itemClickListener: OnItemClickListener) {
         scholarshipItemClickListener = itemClickListener
     }
 
     inner class ViewHolder(val binding: ItemScholarshipBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: ScholarshipData) {
-            val date =  LocalDate.now()
+            val date = LocalDate.now()
             binding.itemScholarshipNameTv.text = data.상품명
             binding.itemScholarshipAgencyTv.text = data.운영기관명
             binding.itemScholarshipDateStartTv.text = data.신청시작
             binding.itemScholarshipDateEndTv.text = data.신청마감
+            if (data.favorite){
+                binding.itemScholarshipFavoriteIv.setImageResource(R.drawable.ic_baseline_star_24)
+            }else{
+                binding.itemScholarshipFavoriteIv.setImageResource(R.drawable.ic_baseline_star_border_24)
+            }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -42,10 +48,15 @@ class ScholarshipRVAdapter(val items: ArrayList<ScholarshipData>) :
         holder.itemView.setOnClickListener {
             scholarshipItemClickListener.onItemClick(items[position])
         }
-        holder.binding.itemScholarshipFavoriteIv.setOnClickListener{
-            // 즐겨찾기 추가 기능 함수 구현 필요
-            scholarshipItemClickListener.applyFavorite(position)
+        holder.binding.itemScholarshipFavoriteIv.setOnClickListener {
+            scholarshipItemClickListener.clickFavorite(items[position], position)
+            if (!items[position].favorite)
+                holder.binding.itemScholarshipFavoriteIv.setImageResource(R.drawable.ic_baseline_star_border_24)
+            else
+                holder.binding.itemScholarshipFavoriteIv.setImageResource(R.drawable.ic_baseline_star_24)
+
         }
+
     }
 
     override fun getItemCount(): Int {

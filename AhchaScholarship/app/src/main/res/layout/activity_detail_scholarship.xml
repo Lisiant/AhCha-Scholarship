@@ -6,4 +6,148 @@
     android:layout_height="match_parent"
     tools:context=".DetailScholarshipActivity">
 
+
+    <TextView
+        android:id="@+id/detail_top_bar_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/AhCha"
+        android:padding="10dp"
+        android:text="장학 상세정보"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/detail_site_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사이트 바로가기"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detail_top_bar_tv" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detail_site_tv"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/detail_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="장학금" />
+
+            <TextView
+                android:id="@+id/detail_product_division_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="상품구분" />
+
+            <TextView
+                android:id="@+id/detail_scholarship_division_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="학자금유형구분" />
+
+            <TextView
+                android:id="@+id/detail_univ_division_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="대학구분" />
+
+            <TextView
+                android:id="@+id/detail_year_division_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="학년구분" />
+
+            <TextView
+                android:id="@+id/detail_department_division_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="학과구분" />
+
+            <TextView
+                android:id="@+id/detail_grade_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="성적기준" />
+
+            <TextView
+                android:id="@+id/detail_income_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="소득기준" />
+
+            <TextView
+                android:id="@+id/detail_money_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지원금액" />
+
+            <TextView
+                android:id="@+id/detail_qualification_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="특정자격" />
+            <TextView
+                android:id="@+id/detail_local_scholarship_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지역거주여부" />
+            <TextView
+                android:id="@+id/detail_start_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="신청시작" />
+            <TextView
+                android:id="@+id/detail_end_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="신청마감" />
+            <TextView
+                android:id="@+id/detail_selection_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="선발방법" />
+            <TextView
+                android:id="@+id/detail_selection_number_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="선발인원" />
+            <TextView
+                android:id="@+id/detail_limit_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="자격제한" />
+            <TextView
+                android:id="@+id/detail_recommend_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="추천필요여부" />
+            <TextView
+                android:id="@+id/detail_application_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="제출서류" />
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
