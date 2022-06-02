@@ -27,12 +27,13 @@ class DetailScholarshipActivity : AppCompatActivity() {
 
         binding.apply {
             scholarshipData = db.findScholarshipBySno(sno)
-            val name = "${scholarshipData.운영기관명} ${scholarshipData.상품명}"
+            val name = "[${scholarshipData.운영기관명}] ${scholarshipData.상품명}"
+            val applyTime = "${scholarshipData.신청시작} ~ ${scholarshipData.신청마감}"
 
             detailNameTv.text = name
             detailProductDivisionTv.text = parser.decodeSCat1(scholarshipData.상품구분)
             detailScholarshipDivisionTv.text = parser.decodeSCat2(scholarshipData.상품구분)
-            detailUnivDivisionTv.text = parser.decodeSchoolCat(scholarshipData.대학구분).toString()
+//            detailUnivDivisionTv.text = parser.decodeSchoolCat(scholarshipData.대학구분).toString()
             detailYearDivisionTv.text = parser.decodeYear(scholarshipData.학년구분).toString()
             detailDepartmentDivisionTv.text = parser.decodeDepartment(scholarshipData.학과구분).toString()
             detailGradeTv.text = scholarshipData.성적기준
@@ -40,8 +41,7 @@ class DetailScholarshipActivity : AppCompatActivity() {
             detailMoneyTv.text = scholarshipData.지원금액
             detailQualificationTv.text = scholarshipData.특정자격
             detailLocalScholarshipTv.text = scholarshipData.지역거주여부
-            detailStartTimeTv.text = scholarshipData.신청시작
-            detailEndTimeTv.text = scholarshipData.신청마감
+            detailApplyTimeTv.text =  applyTime
             detailSelectionNumberTv.text = scholarshipData.선발방법
             detailSelectionNumberTv.text = scholarshipData.선발인원
             detailLimitTv.text = scholarshipData.자격제한
