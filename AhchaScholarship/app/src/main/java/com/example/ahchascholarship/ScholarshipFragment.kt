@@ -6,8 +6,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ahchascholarship.databinding.FragmentScholarshipBinding
 
@@ -42,7 +46,6 @@ class ScholarshipFragment : Fragment() {
 
         scholarshipRVAdapter.setScholarshipItemClickListener(object : ScholarshipRVAdapter.OnItemClickListener {
             override fun onItemClick(scholarshipData: ScholarshipData) {
-                Log.d("DATA_CLICKED", scholarshipData.toString())
 
                 val intent = Intent(context, DetailScholarshipActivity::class.java)
                 intent.putExtra("sno", scholarshipData.번호)
@@ -53,12 +56,8 @@ class ScholarshipFragment : Fragment() {
                 scholarshipData.favorite = !scholarshipData.favorite
                 db.setFavorite(scholarshipData.번호, scholarshipData.favorite)
                 scholarshipRVAdapter.notifyDataSetChanged()
-                Log.d("Favorite_CLICKED", scholarshipData.favorite.toString())
-
             }
         })
-
-
     }
 
 

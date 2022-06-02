@@ -240,4 +240,13 @@ class MainActivity : AppCompatActivity() {
 //            startActivity(intent)
 //        }
     }
+
+    override fun onResume() {
+        super.onResume()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_frm, ScholarshipFragment())
+            .commitAllowingStateLoss()
+    }
+
+
 }
