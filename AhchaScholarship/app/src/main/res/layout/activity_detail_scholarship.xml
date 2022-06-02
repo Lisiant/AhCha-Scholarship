@@ -485,6 +485,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/detail_bottom_site_cl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1">
@@ -516,6 +517,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/detail_bottom_favorite_cl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

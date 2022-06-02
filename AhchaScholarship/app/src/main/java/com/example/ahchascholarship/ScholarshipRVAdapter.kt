@@ -4,7 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ahchascholarship.databinding.ItemScholarshipBinding
-import java.time.LocalDate
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ScholarshipRVAdapter(val items: ArrayList<ScholarshipData>) :
     RecyclerView.Adapter<ScholarshipRVAdapter.ViewHolder>() {
@@ -23,16 +25,25 @@ class ScholarshipRVAdapter(val items: ArrayList<ScholarshipData>) :
     inner class ViewHolder(val binding: ItemScholarshipBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: ScholarshipData) {
-            val date = LocalDate.now()
-            binding.itemScholarshipNameTv.text = data.상품명
-            binding.itemScholarshipAgencyTv.text = data.운영기관명
-            binding.itemScholarshipDateStartTv.text = data.신청시작
-            binding.itemScholarshipDateEndTv.text = data.신청마감
-            if (data.favorite){
-                binding.itemScholarshipFavoriteIv.setImageResource(R.drawable.ic_baseline_star_24)
-            }else{
-                binding.itemScholarshipFavoriteIv.setImageResource(R.drawable.ic_baseline_star_border_24)
+            val diff = getDiff(data)
+            binding.apply {
+                itemScholarshipNameTv.text = data.상품명
+                itemScholarshipAgencyTv.text = data.운영기관명
+                itemScholarshipDateStartTv.text = data.신청시작
+                itemScholarshipDateEndTv.text = data.신청마감
+
+                if (diff >= 0) {
+                    itemScholarshipDdayTv.text = "D-$diff"
+                } else {
+                    itemScholarshipDdayTv.text = "D+${-diff}"
+                }
+                if (data.favorite){
+                    itemScholarshipFavoriteIv.setImageResource(R.drawable.ic_baseline_star_24)
+                }else{
+                    itemScholarshipFavoriteIv.setImageResource(R.drawable.ic_baseline_star_border_24)
+                }
             }
+
         }
 
     }
@@ -62,4 +73,19 @@ class ScholarshipRVAdapter(val items: ArrayList<ScholarshipData>) :
     override fun getItemCount(): Int {
         return items.size
     }
+
+
+
+    private fun getDiff(data: ScholarshipData): Int {
+        val parser = ScholarshipDataParser()
+        val ret = parser.calculateDateBetween(
+            SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(
+                System.currentTimeMillis()
+            ).toString(), data.신청마감
+        )
+
+        return ret.toInt()
+    }
+
+
 }
