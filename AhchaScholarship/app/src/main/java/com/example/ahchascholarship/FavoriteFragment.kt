@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.*
 import com.example.ahchascholarship.databinding.FragmentFavoriteBinding
 import com.example.myapplication.FavoriteAdapter
+import me.relex.circleindicator.CircleIndicator2
 
 
 class FavoriteFragment : Fragment() {
     lateinit var favoriteAdapter:FavoriteAdapter
     lateinit var db:ScholarshipDBHelper
+    lateinit var indicator : CircleIndicator2
     val snapHelper = PagerSnapHelper()
     var data :ArrayList<ScholarshipData> = ArrayList()
 
@@ -39,6 +41,7 @@ class FavoriteFragment : Fragment() {
             "특정자격","지역거주여부","신청시작","신청마감","선발방법","선별인원",
             "자격제한","추천필요여부","제출서류", false, false)
         db = ScholarshipDBHelper(context)
+        indicator = binding!!.favoriteIndicator
         data = db.getFavoriteRecord()
         binding!!.favoriteRecyclerView.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
         favoriteAdapter = FavoriteAdapter(data)
@@ -48,8 +51,9 @@ class FavoriteFragment : Fragment() {
                 favoriteAdapter.notifyItemChanged(position)
             }
         }
-        snapHelper.attachToRecyclerView(binding!!.favoriteRecyclerView)
         binding!!.favoriteRecyclerView.adapter = favoriteAdapter
+        snapHelper.attachToRecyclerView(binding!!.favoriteRecyclerView)
+        indicator.attachToRecyclerView(binding!!.favoriteRecyclerView,snapHelper)
         binding!!.apply{
         }
     }

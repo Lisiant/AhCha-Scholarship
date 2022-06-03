@@ -17,6 +17,12 @@
         <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/layout/fragment_scholarship.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/layout/item_scholarship.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36822916666666666" />
+<<<<<<< Updated upstream
+=======
+        <entry key="app/src/main/res/drawable/bottom_border.xml" value="0.1785" />
+        <entry key="app/src/main/res/drawable/indicator_circle.xml" value="0.2535" />
+        <entry key="app/src/main/res/layout/activity_detail_scholarship.xml" value="0.13858695652173914" />
+>>>>>>> Stashed changes
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2796875" />
         <entry key="app/src/main/res/layout/favorite.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.346875" />
