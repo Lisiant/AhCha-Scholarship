@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
+    android:background="@drawable/round_border"
+    android:padding="10dp">
+
+
+    <TextView
+        android:id="@+id/item_outdoor_name_tv"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="상품명"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/item_outdoor_agency_iv"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="5dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_baseline_home_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_outdoor_name_tv" />
+
+
+    <TextView
+        android:id="@+id/item_outdoor_agency_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="운영기관"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/item_outdoor_agency_iv"
+        app:layout_constraintStart_toEndOf="@id/item_outdoor_agency_iv"
+        app:layout_constraintTop_toTopOf="@id/item_outdoor_agency_iv" />
+
+
+    <ImageView
+        android:id="@+id/item_outdoor_type_iv"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="5dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_baseline_category_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_outdoor_agency_iv" />
+
+
+    <TextView
+        android:id="@+id/item_outdoor_type_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="활동종류"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/item_outdoor_type_iv"
+        app:layout_constraintStart_toEndOf="@id/item_outdoor_type_iv"
+        app:layout_constraintTop_toTopOf="@id/item_outdoor_type_iv" />
+
+    <ImageView
+        android:id="@+id/item_outdoor_date_iv"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="5dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_baseline_calendar_today_24"
+        app:layout_constraintEnd_toEndOf="@id/item_outdoor_type_iv"
+        app:layout_constraintStart_toStartOf="@id/item_outdoor_type_iv"
+        app:layout_constraintTop_toBottomOf="@id/item_outdoor_type_iv" />
+
+
+    <TextView
+        android:id="@+id/item_outdoor_date_start_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="시작일"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/item_outdoor_date_iv"
+        app:layout_constraintStart_toEndOf="@id/item_outdoor_date_iv"
+        app:layout_constraintTop_toTopOf="@id/item_outdoor_date_iv" />
+
+    <TextView
+        android:id="@+id/item_outdoor_date_tilde_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="~"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/item_outdoor_date_start_tv"
+        app:layout_constraintStart_toEndOf="@id/item_outdoor_date_start_tv"
+        app:layout_constraintTop_toTopOf="@id/item_outdoor_date_start_tv" />
+
+    <TextView
+        android:id="@+id/item_outdoor_date_end_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="마감일"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/item_outdoor_date_tilde_iv"
+        app:layout_constraintStart_toEndOf="@id/item_outdoor_date_tilde_iv"
+        app:layout_constraintTop_toTopOf="@id/item_outdoor_date_tilde_iv" />
+
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_baseline_navigate_next_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
