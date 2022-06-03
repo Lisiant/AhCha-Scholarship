@@ -19,7 +19,7 @@
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="뒤로가기" />
+                android:text="저장" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,25 +40,32 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <CheckBox
-                        android:id="@+id/checkBox1_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        android:text="학자금" />
+                    <RadioGroup
+                        android:id="@+id/radioGroup1"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <CheckBox
-                        android:id="@+id/checkBox1_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        android:text="장학금" />
+                        <RadioButton
+                            android:layout_weight="1"
+                            android:text="학자금"
+                            android:id="@+id/radioButton1_1"
+                            android:layout_width="0dp"
+                            android:layout_height="20dp" />
+
+                        <RadioButton
+                            android:layout_weight="1"
+                            android:text="장학금"
+                            android:id="@+id/radioButton1_2"
+                            android:layout_width="0dp"
+                            android:layout_height="20dp" />
+                    </RadioGroup>
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
+            <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -72,69 +79,67 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
+                <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/checkBox2_1"
+                    <RadioButton
+                        android:id="@+id/radioButton2_1"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:text="한국장학재단" />
 
-                    <CheckBox
-                        android:id="@+id/checkBox2_2"
+                    <RadioButton
+                        android:id="@+id/radioButton2_2"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:text="지자체" />
+                </TableRow>
 
-                </LinearLayout>
-
-                <LinearLayout
+                <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <CheckBox
-                        android:id="@+id/checkBox2_3"
+                    <RadioButton
+                        android:id="@+id/radioButton2_3"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:text="민간(기타)" />
 
-                    <CheckBox
-                        android:id="@+id/checkBox2_4"
+                    <RadioButton
+                        android:id="@+id/radioButton2_4"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:text="민간(기업)" />
-                </LinearLayout>
+                </TableRow>
 
 
-                <LinearLayout
+                <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <CheckBox
-                        android:id="@+id/checkBox2_5"
+                    <RadioButton
+                        android:id="@+id/radioButton2_5"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:text="대학교" />
 
-                    <CheckBox
-                        android:id="@+id/checkBox2_6"
+                    <RadioButton
+                        android:id="@+id/radioButton2_6"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:text="관계부처" />
-                </LinearLayout>
+                </TableRow>
 
-            </LinearLayout>
+            </TableLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -155,15 +160,16 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <CheckBox
-                        android:id="@+id/checkBox3_1"
+                    <RadioButton
+                        android:id="@+id/radioButton3_1"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_weight="1"
+                        android:checked="false"
                         android:text="특기자" />
 
-                    <CheckBox
-                        android:id="@+id/checkBox3_2"
+                    <RadioButton
+                        android:id="@+id/radioButton3_2"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_weight="1"
@@ -176,15 +182,15 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <CheckBox
-                        android:id="@+id/checkBox3_3"
+                    <RadioButton
+                        android:id="@+id/radioButton3_3"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:text="장애인" />
 
-                    <CheckBox
-                        android:id="@+id/checkBox3_4"
+                    <RadioButton
+                        android:id="@+id/radioButton3_4"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_weight="1"
@@ -197,15 +203,15 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <CheckBox
-                        android:id="@+id/checkBox3_5"
+                    <RadioButton
+                        android:id="@+id/radioButton3_5"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:text="성적우수" />
 
-                    <CheckBox
-                        android:id="@+id/checkBox3_6"
+                    <RadioButton
+                        android:id="@+id/radioButton3_6"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_weight="1"

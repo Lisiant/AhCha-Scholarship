@@ -250,7 +250,7 @@ class MainActivity : AppCompatActivity() {
         // null check 후 scholarshipFragment으로 bundle 보냄
         // 그동안 안됐었던 이유: Filter 액티비티에서 바로 Fragment으로 보내려 하니 받을 수가 없었음.
         //
-        val bitArray = intent.getIntArrayExtra("filtered")
+        val bitArray = intent.getIntArrayExtra("filtered_scholarship")
 
         if (bitArray != null){
             supportFragmentManager.beginTransaction()
@@ -263,6 +263,17 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        val bitArray2 = intent.getIntArrayExtra("filtered_outdoor")
+        if (bitArray2 != null){
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frm, OutdoorFragment().apply {
+                    arguments = Bundle().apply {
+                        putIntArray("filter", bitArray)
+                    }
+                })
+                .commitAllowingStateLoss()
+
+        }
     }
 
 

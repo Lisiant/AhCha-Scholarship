@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.CheckBox
+import android.widget.RadioButton
 import com.example.ahchascholarship.databinding.ActivityOutdoorFilterBinding
 
 class OutdoorFilter : AppCompatActivity() {
@@ -35,19 +36,19 @@ class OutdoorFilter : AppCompatActivity() {
     private fun getSCatBit(): Int {
         var sCatbit = 0
         binding.apply {
-            if (outdoorCheckbox11.isChecked) {
+            if (outdoorRadioButton11.isChecked) {
                 sCatbit = sCatbit.or(BIT_0)       //동아리
             }
-            if (outdoorCheckbox12.isChecked) {
+            if (outdoorRadioButton12.isChecked) {
                 sCatbit = sCatbit.or(BIT_1)       //봉사
             }
-            if (outdoorCheckbox13.isChecked) {
+            if (outdoorRadioButton13.isChecked) {
                 sCatbit = sCatbit.or(BIT_2)       //공모전
             }
-            if (outdoorCheckbox14.isChecked) {
+            if (outdoorRadioButton14.isChecked) {
                 sCatbit = sCatbit.or(BIT_3)       //인턴
             }
-            if (outdoorCheckbox15.isChecked) {
+            if (outdoorRadioButton15.isChecked) {
                 sCatbit = sCatbit.or(BIT_4)       //채용
             }
         }
@@ -58,22 +59,22 @@ class OutdoorFilter : AppCompatActivity() {
     private fun getFCatBit(): Int {
         var fCatbit = 0
         binding.apply {
-            if (outdoorCheckBox21.isChecked) {
+            if (outdoorRadioButton21.isChecked) {
                 fCatbit = fCatbit.or(BIT_0)       //민간
             }
-            if (outdoorCheckBox22.isChecked) {
+            if (outdoorRadioButton22.isChecked) {
                 fCatbit = fCatbit.or(BIT_1)       //공공재단
             }
-            if (outdoorCheckBox23.isChecked) {
+            if (outdoorRadioButton23.isChecked) {
                 fCatbit = fCatbit.or(BIT_2)       //정부재단
             }
-            if (outdoorCheckBox24.isChecked) {
+            if (outdoorRadioButton24.isChecked) {
                 fCatbit = fCatbit.or(BIT_3)       //지자체
             }
-            if (outdoorCheckBox25.isChecked) {
+            if (outdoorRadioButton25.isChecked) {
                 fCatbit = fCatbit.or(BIT_4)       //공공기업
             }
-            if (outdoorCheckBox26.isChecked) {
+            if (outdoorRadioButton26.isChecked) {
                 fCatbit = fCatbit.or(BIT_5)       //관계부처
             }
         }
@@ -123,23 +124,36 @@ class OutdoorFilter : AppCompatActivity() {
 
         binding.apply {
             val sCatCheckid = intArrayOf(
-                outdoorCheckbox11.id, outdoorCheckbox12.id, outdoorCheckbox13.id,
-                outdoorCheckbox14.id, outdoorCheckbox15.id
+                outdoorRadioButton11.id, outdoorRadioButton12.id, outdoorRadioButton13.id,
+                outdoorRadioButton14.id, outdoorRadioButton15.id
             )
             for (id in sCatCheckid) {
-                val checkBox = findViewById<CheckBox>(id)
-                checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+                val radioButton = findViewById<RadioButton>(id)
+                radioButton.setOnClickListener {
+                    outdoorRadioButton11.setChecked(false)
+                    outdoorRadioButton12.setChecked(false)
+                    outdoorRadioButton13.setChecked(false)
+                    outdoorRadioButton14.setChecked(false)
+                    outdoorRadioButton15.setChecked(false)
+                    radioButton.setChecked(true)
                     sCatBit = getSCatBit()
                 }
             }
 
             val fCatCheckid = intArrayOf(
-                outdoorCheckBox21.id, outdoorCheckBox22.id, outdoorCheckBox23.id,
-                outdoorCheckBox24.id, outdoorCheckBox25.id, outdoorCheckBox26.id
+                outdoorRadioButton21.id, outdoorRadioButton22.id, outdoorRadioButton23.id,
+                outdoorRadioButton24.id, outdoorRadioButton25.id, outdoorRadioButton26.id
             )
             for (id in fCatCheckid) {
-                val checkBox = findViewById<CheckBox>(id)
-                checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+                val radioButton = findViewById<RadioButton>(id)
+                radioButton.setOnClickListener {
+                    outdoorRadioButton21.setChecked(false)
+                    outdoorRadioButton22.setChecked(false)
+                    outdoorRadioButton23.setChecked(false)
+                    outdoorRadioButton24.setChecked(false)
+                    outdoorRadioButton25.setChecked(false)
+                    outdoorRadioButton26.setChecked(false)
+                    radioButton.setChecked(true)
                     fCatBit = getFCatBit()
                 }
             }
@@ -164,19 +178,10 @@ class OutdoorFilter : AppCompatActivity() {
         }
         db = OutdoorDBHelper(this)
         binding.outdoorFilterBackBtn.setOnClickListener{
-//            val model:ScholarshipViewModel by viewModels()
-////            Log.d("nonselectdata" , model.ScholarshipDataList.value!!.size.toString())
-////            model.select(db.catSelector(fCatBit,sCat1Bit, sCat2Bit, schoolCatBit, yearBit, departmentBit))
-//            val bitArray = intArrayOf(fCatBit,sCat1Bit, sCat2Bit, schoolCatBit, yearBit, departmentBit)
-//            model.setLiveData(yearBit)//,sCat1Bit, sCat2Bit, schoolCatBit, yearBit, departmentBit)
-            val bitArray = intArrayOf(sCatBit,fCatBit,departmentBit)
-            val frag = ScholarshipFragment()
-            val bundle = Bundle()
-            bundle.putIntArray("filter" , bitArray)
-            frag.setArguments(bundle)
-//            val intent = Intent(this, MainActivity::class.java)
-//            intent.putExtra("filtered" , 1)
-//            startActivity(intent)
+                val bitArray = intArrayOf(fCatBit,sCatBit,departmentBit)
+                val intent = Intent(this, MainActivity::class.java)     //메인으로 이동하면 바텀네비게이션이 장학금을 가리키고 있음
+                intent.putExtra("filtered_outdoor" , bitArray)
+                startActivity(intent)
         }
     }
 }

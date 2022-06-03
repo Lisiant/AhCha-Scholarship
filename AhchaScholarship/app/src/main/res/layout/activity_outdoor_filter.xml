@@ -40,15 +40,15 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/outdoor_checkbox1_1"
+                <RadioButton
+                    android:id="@+id/outdoor_radioButton1_1"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_weight="1"
                     android:text="동아리" />
 
-                <CheckBox
-                    android:id="@+id/outdoor_checkbox1_2"
+                <RadioButton
+                    android:id="@+id/outdoor_radioButton1_2"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_weight="1"
@@ -61,15 +61,15 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/outdoor_checkbox1_3"
+                <RadioButton
+                    android:id="@+id/outdoor_radioButton1_3"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_weight="1"
                     android:text="공모전" />
 
-                <CheckBox
-                    android:id="@+id/outdoor_checkbox1_4"
+                <RadioButton
+                    android:id="@+id/outdoor_radioButton1_4"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_weight="1"
@@ -82,8 +82,8 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/outdoor_checkbox1_5"
+                <RadioButton
+                    android:id="@+id/outdoor_radioButton1_5"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_weight="1"
@@ -112,15 +112,15 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/outdoor_checkBox2_1"
+                <RadioButton
+                    android:id="@+id/outdoor_radioButton2_1"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_weight="1"
                     android:text="민간" />
 
-                <CheckBox
-                    android:id="@+id/outdoor_checkBox2_2"
+                <RadioButton
+                    android:id="@+id/outdoor_radioButton2_2"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_weight="1"
@@ -133,15 +133,15 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/outdoor_checkBox2_3"
+                <RadioButton
+                    android:id="@+id/outdoor_radioButton2_3"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_weight="1"
                     android:text="정부기관" />
 
-                <CheckBox
-                    android:id="@+id/outdoor_checkBox2_4"
+                <RadioButton
+                    android:id="@+id/outdoor_radioButton2_4"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_weight="1"
@@ -154,15 +154,15 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/outdoor_checkBox2_5"
+                <RadioButton
+                    android:id="@+id/outdoor_radioButton2_5"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_weight="1"
                     android:text="공공기업" />
 
-                <CheckBox
-                    android:id="@+id/outdoor_checkBox2_6"
+                <RadioButton
+                    android:id="@+id/outdoor_radioButton2_6"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_weight="1"

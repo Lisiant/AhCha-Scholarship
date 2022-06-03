@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.CheckBox
+import android.widget.RadioButton
 import com.example.ahchascholarship.databinding.ActivityScholarshipFilterBinding
 
 class ScholarshipFilter : AppCompatActivity() {
@@ -41,10 +42,10 @@ class ScholarshipFilter : AppCompatActivity() {
     private fun getSCat1Bit():Int{
         var sCat1bit = 0
         binding.apply {
-            if(checkBox11.isChecked){
+            if(radioButton11.isChecked){
                 sCat1bit = sCat1bit.or(BIT_0)       //학자금
             }
-            if(checkBox12.isChecked){
+            if(radioButton12.isChecked){
                 sCat1bit = sCat1bit.or(BIT_1)       //장학금
             }
         }
@@ -55,22 +56,22 @@ class ScholarshipFilter : AppCompatActivity() {
     private fun getFCatBit():Int{
         var fCatbit = 0
         binding.apply {
-            if(checkBox21.isChecked){
+            if(radioButton21.isChecked){
                 fCatbit = fCatbit.or(BIT_0)       //한국장학재단
             }
-            if(checkBox22.isChecked){
+            if(radioButton22.isChecked){
                 fCatbit = fCatbit.or(BIT_1)       //지자체
             }
-            if(checkBox23.isChecked){
+            if(radioButton23.isChecked){
                 fCatbit = fCatbit.or(BIT_2)       //민간(기타)
             }
-            if(checkBox24.isChecked){
+            if(radioButton24.isChecked){
                 fCatbit = fCatbit.or(BIT_3)       //민간(기업)
             }
-            if(checkBox25.isChecked){
+            if(radioButton25.isChecked){
                 fCatbit = fCatbit.or(BIT_4)       //대학교
             }
-            if(checkBox26.isChecked){
+            if(radioButton26.isChecked){
                 fCatbit = fCatbit.or(BIT_5)       //관계부처
             }
         }
@@ -81,22 +82,22 @@ class ScholarshipFilter : AppCompatActivity() {
     private fun getSCat2Bit():Int{
         var sCat2bit = 0
         binding.apply {
-            if(checkBox31.isChecked){
+            if(radioButton31.isChecked){
                 sCat2bit = sCat2bit.or(BIT_0)       //특기자
             }
-            if(checkBox32.isChecked){
+            if(radioButton32.isChecked){
                 sCat2bit = sCat2bit.or(BIT_1)       //지역연고
             }
-            if(checkBox33.isChecked){
+            if(radioButton33.isChecked){
                 sCat2bit = sCat2bit.or(BIT_2)       //장애인
             }
-            if(checkBox34.isChecked){
+            if(radioButton34.isChecked){
                 sCat2bit = sCat2bit.or(BIT_3)       //소득구분
             }
-            if(checkBox35.isChecked){
+            if(radioButton35.isChecked){
                 sCat2bit = sCat2bit.or(BIT_4)       //성적우수
             }
-            if(checkBox36.isChecked){
+            if(radioButton36.isChecked){
                 sCat2bit = sCat2bit.or(BIT_5)       //기타
             }
         }
@@ -233,26 +234,47 @@ class ScholarshipFilter : AppCompatActivity() {
         var departmentBit = 0
 
         binding.apply {
-            val sCat1Checkid = intArrayOf(checkBox11.id,checkBox12.id)
+            val sCat1Checkid = intArrayOf(radioButton11.id,radioButton12.id)
             for(id in sCat1Checkid){
-                val checkBox = findViewById<CheckBox>(id)
-                checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+                val radiobutton = findViewById<RadioButton>(id)
+                radiobutton.setOnCheckedChangeListener { buttonView, isChecked ->
                     sCat1Bit = getSCat1Bit()
                 }
             }
 
-            val fCatCheckid = intArrayOf(checkBox21.id,checkBox22.id,checkBox23.id,checkBox24.id,checkBox25.id,checkBox26.id)
+            fun clearRadio(checkid:IntArray){
+                for(id in checkid) {
+                    val radioButton = findViewById<RadioButton>(id)
+                    radioButton.setChecked(false)
+                }
+            }
+
+            val fCatCheckid = intArrayOf(radioButton21.id,radioButton22.id,radioButton23.id,radioButton24.id,radioButton25.id,radioButton26.id)
             for(id in fCatCheckid){
-                val checkBox = findViewById<CheckBox>(id)
-                checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+                val radioButton = findViewById<RadioButton>(id)
+                radioButton.setOnClickListener {
+                    radioButton21.setChecked(false)
+                    radioButton22.setChecked(false)
+                    radioButton23.setChecked(false)
+                    radioButton24.setChecked(false)
+                    radioButton25.setChecked(false)
+                    radioButton26.setChecked(false)
+                    radioButton.setChecked(true)
                     fCatBit = getFCatBit()
                 }
             }
 
-            val sCat2Checkid = intArrayOf(checkBox31.id,checkBox32.id,checkBox33.id,checkBox34.id,checkBox35.id,checkBox36.id)
+            val sCat2Checkid = intArrayOf(radioButton31.id,radioButton32.id,radioButton33.id,radioButton34.id,radioButton35.id,radioButton36.id)
             for(id in sCat2Checkid){
-                val checkBox = findViewById<CheckBox>(id)
-                checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+                val radioButton = findViewById<RadioButton>(id)
+                radioButton.setOnClickListener {
+                    radioButton31.setChecked(false)
+                    radioButton32.setChecked(false)
+                    radioButton33.setChecked(false)
+                    radioButton34.setChecked(false)
+                    radioButton35.setChecked(false)
+                    radioButton36.setChecked(false)
+                    radioButton.setChecked(true)
                     sCat2Bit = getSCat2Bit()
                 }
             }
@@ -293,7 +315,7 @@ class ScholarshipFilter : AppCompatActivity() {
         binding.button.setOnClickListener{
             val bitArray = intArrayOf(fCatBit,sCat1Bit, sCat2Bit, schoolCatBit, yearBit, departmentBit)
             val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("filtered" , bitArray)
+            intent.putExtra("filtered_scholarship" , bitArray)
             startActivity(intent)
         }
     }
