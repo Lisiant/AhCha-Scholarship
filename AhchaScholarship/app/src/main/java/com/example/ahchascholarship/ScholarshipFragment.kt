@@ -71,8 +71,7 @@ class ScholarshipFragment : Fragment() {
             }
         })
 
-        //추후 수정 예정(필터 버튼 xml파일 수정계획 있음)
-        binding.scholarshipFilterBtn.setOnClickListener {
+        binding.scholarshipFilterIv.setOnClickListener {
             val intent = Intent(context, ScholarshipFilter::class.java)
             startActivity(intent)
         }
