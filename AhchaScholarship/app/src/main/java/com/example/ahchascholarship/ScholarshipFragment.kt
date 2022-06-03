@@ -17,28 +17,12 @@ import com.example.ahchascholarship.databinding.FragmentScholarshipBinding
 class ScholarshipFragment : Fragment() {
     lateinit var binding: FragmentScholarshipBinding
     lateinit var db: ScholarshipDBHelper
-    lateinit var intent: Intent
     var scholarshipDataList = ArrayList<ScholarshipData>()
-//    val model:ScholarshipViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         db = ScholarshipDBHelper(context)
-//        model.ScholarshipDataList.observe(viewLifecycleOwner, Observer<ArrayList<ScholarshipData>> {
-//            item->
-//            scholarshipDataList = item
-//        })
-//
-//        val extra = arguments
-//       if(extra!=null){
-//            Log.d("getdataaa","a")
-//           val bitArray = extra?.getIntArray("filter")
-//            scholarshipDataList = db.catSelector(bitArray!![0],bitArray[1],bitArray[2],bitArray[3],bitArray[4],bitArray[5])
-//        }
-//        else {
-//            Log.d("nodata" , "123")
-//            scholarshipDataList = db.getAllRecord()
-//        }
+        scholarshipDataList = db.getAllRecord()
     }
 
 
@@ -50,47 +34,21 @@ class ScholarshipFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.scholarshipFilterBtn.setOnClickListener {
-            val intent = Intent(context, ScholarshipFilter::class.java)
-            startActivity(intent)
-        }
         super.onViewCreated(view, savedInstanceState)
-        Log.d("argumentData" , arguments?.size().toString())
-        if(getArguments()!=null){
-            Log.d("getdataaa","a")
-            val bitArray = arguments?.getIntArray("filter")
-            scholarshipDataList = db.catSelector(bitArray!![0],bitArray[1],bitArray[2],bitArray[3],bitArray[4],bitArray[5])
+
+        /*
+        * MainActivity에서 bundle로 받은 bitArray를 NULL check 한다.
+        * bitArray == NULL이면 scholarshipDataList = db.getAllRecord()
+        * 아니면 scholarshipDataList = catSelector로 받아온 ArrayList
+        * 이 scholarshipDataList를 어댑터에 연결하면 원하는 내역의 데이터가 출력됨
+        * */
+
+        val bitArray = arguments?.getIntArray("filter")
+        scholarshipDataList = if (bitArray != null){
+            db.catSelector(bitArray[0], bitArray[1],bitArray[2],bitArray[3],bitArray[4],bitArray[5])
+        }else{
+            db.getAllRecord()
         }
-        else {
-            Log.d("nodata" , "123")
-            scholarshipDataList = db.getAllRecord()
-        }
-//        var bitArray : IntArray
-//        val i = requireActivity().intent
-//        val num = i.getIntExtra("filtered",-1)
-//        val fCatBit : Int
-//        if(num==-1) {
-//            Log.d("nothing come" , num.toString())
-//            scholarshipDataList = db.getAllRecord()
-//        }
-//        else {
-//            Log.d("data come" , num.toString())
-//            model.yearBit.observe(viewLifecycleOwner, Observer {
-//                  val yearBit = it
-//                Log.d("yearbit" ,yearBit.toString())
-//
-////                val sCat1Bit = model.sCat1Bit.value !!.toInt()
-////                val sCat2Bit = model.sCat2Bit.value!!.toInt()
-////                val schoolCatBit = model.schoolCatBit.value!!.toInt()
-////                val yearBit = model.yearBit.value!!.toInt()
-////                val departmentBit = model.departmentBit.value!!.toInt()
-////                scholarshipDataList = db.catSelector(fCatBit,sCat1Bit, sCat2Bit, schoolCatBit, yearBit, departmentBit)
-////                Log.d("fuckyou" , scholarshipDataList.size.toString())
-//            })
-//            model.sCat1Bit.observe(viewLifecycleOwner, Observer {
-//                val sCatBit  = it
-//            })
-//        }
 
         val scholarshipRVAdapter = ScholarshipRVAdapter(scholarshipDataList)
         binding.scholarshipMainRv.adapter = scholarshipRVAdapter
@@ -100,8 +58,6 @@ class ScholarshipFragment : Fragment() {
 
         scholarshipRVAdapter.setScholarshipItemClickListener(object : ScholarshipRVAdapter.OnItemClickListener {
             override fun onItemClick(scholarshipData: ScholarshipData) {
-                Log.d("DATA_CLICKED", scholarshipData.toString())
-
                 val intent = Intent(context, DetailScholarshipActivity::class.java)
                 intent.putExtra("sno", scholarshipData.번호)
                 startActivity(intent)
@@ -111,10 +67,18 @@ class ScholarshipFragment : Fragment() {
                 scholarshipData.favorite = !scholarshipData.favorite
                 db.setFavorite(scholarshipData.번호, scholarshipData.favorite)
                 scholarshipRVAdapter.notifyDataSetChanged()
-                Log.d("Favorite_CLICKED", scholarshipData.favorite.toString())
 
             }
         })
+
+        //추후 수정 예정(필터 버튼 xml파일 수정계획 있음)
+        binding.scholarshipFilterBtn.setOnClickListener {
+            val intent = Intent(context, ScholarshipFilter::class.java)
+            startActivity(intent)
+        }
+
     }
+
+
 
 }

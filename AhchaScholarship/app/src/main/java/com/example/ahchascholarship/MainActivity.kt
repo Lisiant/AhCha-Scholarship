@@ -96,10 +96,10 @@ class MainActivity : AppCompatActivity() {
             else {
                 triggerTime = (
                         SimpleDateFormat(
-                    "yyyy-MM-dd-HH-mm-ss",
-                    Locale.KOREA
-                ).parse(alarmableContents.신청마감.plus(temps).plus(id)).time
-                        -(3600*24*1000).toLong())
+                            "yyyy-MM-dd-HH-mm-ss",
+                            Locale.KOREA
+                        ).parse(alarmableContents.신청마감.plus(temps).plus(id)).time
+                                -(3600*24*1000).toLong())
             }
             Toast.makeText(this, SimpleDateFormat(
                 "yyyy-MM-dd-HH-mm-ss",
@@ -243,9 +243,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.main_frm, ScholarshipFragment())
-            .commitAllowingStateLoss()
+
+
+        // ScholarshipFilter.kt 에서 보낸 intent를 받아오는 과정
+        // onResume에 구현한 이유: 필터 액티비티에서 뒤로가기 버튼 누르면
+        // null check 후 scholarshipFragment으로 bundle 보냄
+        // 그동안 안됐었던 이유: Filter 액티비티에서 바로 Fragment으로 보내려 하니 받을 수가 없었음.
+        //
+        val bitArray = intent.getIntArrayExtra("filtered")
+
+        if (bitArray != null){
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frm, ScholarshipFragment().apply {
+                    arguments = Bundle().apply {
+                        putIntArray("filter", bitArray)
+                    }
+                })
+                .commitAllowingStateLoss()
+
+        }
+
     }
 
 
