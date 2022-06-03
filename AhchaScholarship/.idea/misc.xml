@@ -26,10 +26,12 @@
         <entry key="..\:/AndroidStudioProjects/AhCha-Scholarship/AhchaScholarship/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36822916666666666" />
         <entry key="app/src/main/res/layout/activity_detail_scholarship.xml" value="0.13858695652173914" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2796875" />
+        <entry key="app/src/main/res/layout/activity_outdoor_filter.xml" value="0.5145216126372849" />
+        <entry key="app/src/main/res/layout/activity_scholarship_filter.xml" value="0.47274457406306614" />
         <entry key="app/src/main/res/layout/favorite.xml" value="0.19375" />
         <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.346875" />
         <entry key="app/src/main/res/layout/fragment_outdoor.xml" value="0.2513236446657043" />
-        <entry key="app/src/main/res/layout/fragment_scholarship.xml" value="0.2796875" />
+        <entry key="app/src/main/res/layout/fragment_scholarship.xml" value="0.3280776977539062" />
         <entry key="app/src/main/res/layout/item_scholarship.xml" value="0.48007246376811596" />
         <entry key="app/src/main/res/layout/temp_activity_data_testing.xml" value="0.28031768798828127" />
         <entry key="app/src/main/res/layout/temp_data_testing_row.xml" value="0.3047225952148439" />

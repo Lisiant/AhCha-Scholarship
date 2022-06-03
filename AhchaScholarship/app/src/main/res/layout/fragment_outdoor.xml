@@ -11,4 +11,11 @@
         android:layout_marginTop="60dp"
         android:text="outdoor" />
 
+    <Button
+        android:id="@+id/outdoorFilterBtn"
+        android:layout_marginLeft="250dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="필터" />
+
 </FrameLayout>
