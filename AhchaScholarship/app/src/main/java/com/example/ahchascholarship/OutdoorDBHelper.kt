@@ -209,4 +209,27 @@ class OutdoorDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB_NAM
         db.close()
         return ret
     }
+
+    fun findOutdoorByNumber(num: Int): OutdoorActivityData {
+        val strsql = "select * from $TABLE_NAME_MAIN where $SNO = $num"
+        val db = readableDatabase
+        val cursor = db.rawQuery(strsql, null)
+        cursor.moveToFirst()
+        val data = OutdoorActivityData(
+            cursor.getInt(0),
+            cursor.getString(1),
+            cursor.getString(2),
+            cursor.getInt(3),
+            cursor.getInt(4),
+            cursor.getInt(5),
+            cursor.getString(6),
+            cursor.getString(7),
+            cursor.getString(8),
+            cursor.getString(9)
+        )
+        cursor.moveToNext()
+        cursor.close()
+        db.close()
+        return data
+    }
 }

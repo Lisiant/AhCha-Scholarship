@@ -3,23 +3,19 @@ package com.example.ahchascholarship
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.SystemClock
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.ahchascholarship.alarmhelper.AlarmReceiver
 import com.example.ahchascholarship.databinding.ActivityMainBinding
 import com.opencsv.CSVReader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.text.SimpleDateFormat
-import java.time.Clock
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -42,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         initAlarm()
 
     }
+
     private fun initAlarm() {
 
 //        val tempdata = scholarshipDataList[0]
@@ -57,24 +54,27 @@ class MainActivity : AppCompatActivity() {
         var id = -1;
         for (alarmableContents in alarmable) {
             var contentString = ""
-            var DDay = DBParser.calculateDateBetween(SimpleDateFormat("yyyy-MM-dd",Locale.KOREA).format(
-                System.currentTimeMillis()).toString(), alarmableContents.신청시작)
-            if(DDay >= 0)
-            {
+            var DDay = DBParser.calculateDateBetween(
+                SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(
+                    System.currentTimeMillis()
+                ).toString(), alarmableContents.신청시작
+            )
+            if (DDay >= 0) {
                 //Toast.makeText(this, DDay.toString(), Toast.LENGTH_SHORT).show()
                 contentString = contentString.plus("신청시작 D-Day")
                 // contentString = contentString.plus(DDay.toString())
-            }
-            else {
-                DDay = DBParser.calculateDateBetween(SimpleDateFormat("yyyy-MM-dd",Locale.KOREA).format(
-                    System.currentTimeMillis()).toString(), alarmableContents.신청마감)
+            } else {
+                DDay = DBParser.calculateDateBetween(
+                    SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(
+                        System.currentTimeMillis()
+                    ).toString(), alarmableContents.신청마감
+                )
                 if (DDay >= 0) {
                     //Toast.makeText(this, DDay.toString(), Toast.LENGTH_SHORT).show()
                     contentString = contentString.plus("신청마감 D-1")
                     //contentString = contentString.plus(DDay.toString())
                     flag = true
-                }
-                else {
+                } else {
                     continue
                 }
             }
@@ -86,27 +86,28 @@ class MainActivity : AppCompatActivity() {
                 this, AlarmReceiver.NOTIFICATION_ID.plus(id), intent,
                 PendingIntent.FLAG_ONE_SHOT
             )
-            var triggerTime :Long= 0
-            if(!flag) {
+            var triggerTime: Long = 0
+            if (!flag) {
                 triggerTime = (SimpleDateFormat(
                     "yyyy-MM-dd-HH-mm-ss",
                     Locale.KOREA
                 ).parse(alarmableContents.신청시작.plus(temps).plus(id)).time)
-            }
-            else {
+            } else {
                 triggerTime = (
                         SimpleDateFormat(
                             "yyyy-MM-dd-HH-mm-ss",
                             Locale.KOREA
                         ).parse(alarmableContents.신청마감.plus(temps).plus(id)).time
-                                -(3600*24*1000).toLong())
+                                - (3600 * 24 * 1000).toLong())
             }
-            Toast.makeText(this, SimpleDateFormat(
-                "yyyy-MM-dd-HH-mm-ss",
-                Locale.KOREA
-            ).format(triggerTime).toString(), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this, SimpleDateFormat(
+                    "yyyy-MM-dd-HH-mm-ss",
+                    Locale.KOREA
+                ).format(triggerTime).toString(), Toast.LENGTH_SHORT
+            ).show()
             alarmManager.cancel(pendingIntent)
-            if(triggerTime > 0) {
+            if (triggerTime > 0) {
                 alarmManager.set(
                     AlarmManager.RTC_WAKEUP,
                     triggerTime,
@@ -123,6 +124,7 @@ class MainActivity : AppCompatActivity() {
             .commitAllowingStateLoss()
 
         binding.mainBnv.setOnItemSelectedListener { item ->
+            Log.d("selected",binding.mainBnv.selectedItemId.toString())
             when (item.itemId) {
                 R.id.scholarshipFragment -> {
                     supportFragmentManager.beginTransaction()
@@ -150,7 +152,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun initScholarshipData(){
+    private fun initScholarshipData() {
         scholarshipDBHelper = ScholarshipDBHelper(this)
         scholarshipDataList.clear()
         val FStream = InputStreamReader(getResources().openRawResource(R.raw.data));
@@ -162,15 +164,15 @@ class MainActivity : AppCompatActivity() {
                 continue
             scholarshipDataList.add(
                 ScholarshipData(
-                    scholarship[0].removePrefix(" - ").trim().replace(",","").toInt(),
+                    scholarship[0].removePrefix(" - ").trim().replace(",", "").toInt(),
                     scholarship[1].removePrefix(" - ").trim(),
                     scholarship[2].removePrefix(" - ").trim(),
                     ScholarshipDataParser().encodeFCat(scholarship[3].removePrefix(" - ").trim()),
                     ScholarshipDataParser().encodeSCat1(scholarship[4].removePrefix(" - ").trim()),
                     ScholarshipDataParser().encodeSCat2(scholarship[5].removePrefix(" - ").trim()),
-                    ScholarshipDataParser().encodeSchoolCat(scholarship[6].removePrefix(" - ").replace(" ","")),
-                    ScholarshipDataParser().encodeYear(scholarship[7].removePrefix(" - ").replace(" ","")),
-                    ScholarshipDataParser().encodeDepartment(scholarship[8].removePrefix(" - ").replace(" ","")),
+                    ScholarshipDataParser().encodeSchoolCat(scholarship[6].removePrefix(" - ").replace(" ", "")),
+                    ScholarshipDataParser().encodeYear(scholarship[7].removePrefix(" - ").replace(" ", "")),
+                    ScholarshipDataParser().encodeDepartment(scholarship[8].removePrefix(" - ").replace(" ", "")),
                     scholarship[9].removePrefix(" - ").trim(),
                     scholarship[10].removePrefix(" - ").trim(),
                     scholarship[11].removePrefix(" - ").trim(),
@@ -191,7 +193,7 @@ class MainActivity : AppCompatActivity() {
         read.close()
         reader.close()
         FStream.close()
-        for(scholarship in scholarshipDataList) {
+        for (scholarship in scholarshipDataList) {
             scholarshipDBHelper.insertData(scholarship)
         }
         binding.DataTestBtn.setOnClickListener {
@@ -201,7 +203,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initOutdoorData(){
+    private fun initOutdoorData() {
         outdoorDBHelper = OutdoorDBHelper(this)
         outdoorActivityDataList.clear()
         val FStream = InputStreamReader(getResources().openRawResource(R.raw.outdoordata));
@@ -210,7 +212,7 @@ class MainActivity : AppCompatActivity() {
         read.readNext()
         for (outdoor in read) {
             val startDate = OutdoorDataParser().stringToDate(outdoor[6])
-            val endDate = OutdoorDataParser().stringToDate(outdoor[7])?:continue
+            val endDate = OutdoorDataParser().stringToDate(outdoor[7]) ?: continue
             if (endDate.before(OutdoorDataParser.dateFormat.parse("2022-05-27"))) {
                 outdoorActivityDataList.add(
                     OutdoorActivityData(
@@ -231,28 +233,17 @@ class MainActivity : AppCompatActivity() {
         read.close()
         reader.close()
         FStream.close()
-        for(outdoorActivity in outdoorActivityDataList) {
+        for (outdoorActivity in outdoorActivityDataList) {
             outdoorDBHelper.insertData(outdoorActivity)
         }
-//        binding.DataTestBtn2.setOnClickListener {
-//            val intent = Intent(this, Temp_DataTestingActivity::class.java)
-//            intent.putExtra("outdoor", outdoorActivityDataList)
-//            startActivity(intent)
-//        }
     }
 
     override fun onResume() {
         super.onResume()
 
-
-        // ScholarshipFilter.kt 에서 보낸 intent를 받아오는 과정
-        // onResume에 구현한 이유: 필터 액티비티에서 뒤로가기 버튼 누르면
-        // null check 후 scholarshipFragment으로 bundle 보냄
-        // 그동안 안됐었던 이유: Filter 액티비티에서 바로 Fragment으로 보내려 하니 받을 수가 없었음.
-        //
         val bitArray = intent.getIntArrayExtra("filtered_scholarship")
 
-        if (bitArray != null){
+        if (bitArray != null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_frm, ScholarshipFragment().apply {
                     arguments = Bundle().apply {
@@ -261,10 +252,11 @@ class MainActivity : AppCompatActivity() {
                 })
                 .commitAllowingStateLoss()
 
+            binding.mainBnv.selectedItemId = R.id.scholarshipFragment
         }
 
         val bitArray2 = intent.getIntArrayExtra("filtered_outdoor")
-        if (bitArray2 != null){
+        if (bitArray2 != null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_frm, OutdoorFragment().apply {
                     arguments = Bundle().apply {
@@ -273,8 +265,7 @@ class MainActivity : AppCompatActivity() {
                 })
                 .commitAllowingStateLoss()
 
+            binding.mainBnv.selectedItemId = R.id.outdoorFragment
         }
     }
-
-
 }

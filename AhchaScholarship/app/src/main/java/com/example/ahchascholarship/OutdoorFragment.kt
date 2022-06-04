@@ -45,7 +45,9 @@ class OutdoorFragment : Fragment() {
 
         outdoorRVAdapter.setOutdoorItemClickListener(object : OutdoorRVAdapter.OnItemClickListener {
             override fun onItemClick(outdoorData: OutdoorActivityData) {
-//                val intent = Intent(context, DetailOutdoorActivity::class.java)
+                val intent = Intent(context, DetailOutdoorActivity::class.java)
+                intent.putExtra("outdoorNum", outdoorData.번호)
+                startActivity(intent)
             }
 
         })
