@@ -268,7 +268,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_frm, OutdoorFragment().apply {
                     arguments = Bundle().apply {
-                        putIntArray("filter", bitArray)
+                        putIntArray("filter", bitArray2)
                     }
                 })
                 .commitAllowingStateLoss()

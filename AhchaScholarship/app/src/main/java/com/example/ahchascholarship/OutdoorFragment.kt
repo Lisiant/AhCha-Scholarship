@@ -32,7 +32,7 @@ class OutdoorFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val bitArray = arguments?.getIntArray("filter")
-        if (bitArray != null){
+        outdoorDataList = if (bitArray != null){
             db.catSelector(bitArray[0], bitArray[1],bitArray[2])
         }else{
             db.getAllRecord()
