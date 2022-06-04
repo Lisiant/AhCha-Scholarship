@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AhchaScholarship">
         <activity
+            android:name=".DetailOutdoorActivity"
+            android:exported="false" />
+        <activity
             android:name=".OutdoorFilter"
             android:exported="false" />
         <activity
