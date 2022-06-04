@@ -19,7 +19,8 @@
             android:id="@+id/outdoor_filter_backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="뒤로가기" />
+            android:backgroundTint="@color/AhCha"
+            android:text="저장" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,7 +34,8 @@
                 android:text="활동이름"
                 android:textAlignment="center"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:background="@color/gray"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -105,7 +107,8 @@
                 android:text="운영기관명"
                 android:textAlignment="center"
                 android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:background="@color/gray"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -183,7 +186,8 @@
                 android:text="학과 구분"
                 android:textAlignment="center"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:background="@color/gray"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
