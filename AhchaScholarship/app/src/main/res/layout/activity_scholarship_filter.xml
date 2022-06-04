@@ -19,6 +19,7 @@
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/AhCha"
                 android:text="저장" />
 
             <LinearLayout
@@ -29,11 +30,12 @@
                 <TextView
                     android:id="@+id/textView1"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="30dp"
                     android:text="장학금종류"
                     android:textAlignment="center"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:background="@color/gray"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -51,14 +53,14 @@
                             android:text="학자금"
                             android:id="@+id/radioButton1_1"
                             android:layout_width="0dp"
-                            android:layout_height="20dp" />
+                            android:layout_height="30dp" />
 
                         <RadioButton
                             android:layout_weight="1"
                             android:text="장학금"
                             android:id="@+id/radioButton1_2"
                             android:layout_width="0dp"
-                            android:layout_height="20dp" />
+                            android:layout_height="30dp" />
                     </RadioGroup>
 
                 </LinearLayout>
@@ -77,7 +79,8 @@
                     android:text="운영기관 구분"
                     android:textAlignment="center"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:background="@color/gray"/>
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -153,7 +156,8 @@
                     android:text="학자금 유형 구분"
                     android:textAlignment="center"
                     android:textSize="20dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:background="@color/gray"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -232,7 +236,8 @@
                     android:text="대학 구분"
                     android:textAlignment="center"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:background="@color/gray"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -350,7 +355,8 @@
                     android:text="학년 구분"
                     android:textAlignment="center"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:background="@color/gray"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -498,7 +504,8 @@
                     android:text="학과 구분"
                     android:textAlignment="center"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:background="@color/gray"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

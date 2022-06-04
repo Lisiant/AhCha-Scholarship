@@ -248,19 +248,18 @@ class ScholarshipFilter : AppCompatActivity() {
                     radioButton.setChecked(false)
                 }
             }
-
             val fCatCheckid = intArrayOf(radioButton21.id,radioButton22.id,radioButton23.id,radioButton24.id,radioButton25.id,radioButton26.id)
             for(id in fCatCheckid){
                 val radioButton = findViewById<RadioButton>(id)
                 radioButton.setOnClickListener {
-                    radioButton21.setChecked(false)
-                    radioButton22.setChecked(false)
-                    radioButton23.setChecked(false)
-                    radioButton24.setChecked(false)
-                    radioButton25.setChecked(false)
-                    radioButton26.setChecked(false)
-                    radioButton.setChecked(true)
-                    fCatBit = getFCatBit()
+                        radioButton21.setChecked(false)
+                        radioButton22.setChecked(false)
+                        radioButton23.setChecked(false)
+                        radioButton24.setChecked(false)
+                        radioButton25.setChecked(false)
+                        radioButton26.setChecked(false)
+                        radioButton.setChecked(true)
+                        fCatBit = getFCatBit()
                 }
             }
 
