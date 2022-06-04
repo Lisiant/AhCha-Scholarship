@@ -75,8 +75,7 @@ class AlarmRegisterHelper:AppCompatActivity() {
 						SimpleDateFormat(
 							"yyyy-MM-dd-HH-mm-ss",
 							Locale.KOREA
-						).parse(alarmableContents.신청마감.plus(temps).plus(id)).time
-								-(3600*24*1000).toLong())
+						).parse(alarmableContents.신청마감.plus(temps).plus(id)).time - (3600*24*1000).toLong())
 			}
 			Toast.makeText(
 				mainContext, SimpleDateFormat(
@@ -85,15 +84,16 @@ class AlarmRegisterHelper:AppCompatActivity() {
 			).format(triggerTime).toString(), Toast.LENGTH_SHORT).show()
 			alarmManager.cancel(pendingIntent)
 		if(alarmableContents.alarmCheck && alarmableContents.favorite){
-			if(triggerTime > 0) {
+
 				alarmManager.set(
 					AlarmManager.RTC_WAKEUP,
 					triggerTime,
 					pendingIntent
 				)
-			}
+
 		}
 		else{
+			alarmManager.cancel(pendingIntent)
 			Toast.makeText(
 				mainContext, "off", Toast.LENGTH_SHORT).show()
 		}
