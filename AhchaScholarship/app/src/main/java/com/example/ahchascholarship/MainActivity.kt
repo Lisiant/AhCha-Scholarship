@@ -2,12 +2,14 @@ package com.example.ahchascholarship
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ahchascholarship.alarmhelper.AlarmReceiver
+import com.example.ahchascholarship.alarmhelper.AlarmRegisterHelper
 import com.example.ahchascholarship.databinding.ActivityMainBinding
 import com.opencsv.CSVReader
 import kotlinx.coroutines.CoroutineScope
@@ -19,104 +21,103 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-
+    lateinit var alarmIntent: Intent
     lateinit var scholarshipDBHelper: ScholarshipDBHelper
     val scholarshipDataList = ArrayList<ScholarshipData>()
     lateinit var outdoorDBHelper: OutdoorDBHelper
     val outdoorActivityDataList = ArrayList<OutdoorActivityData>()
     val dataIOScope = CoroutineScope(Dispatchers.IO)
     val DBParser = ScholarshipDataParser()
+    companion object{
+        lateinit var mainContext: Context
+        lateinit var alarmManager: AlarmManager
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        alarmManager = getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
+        alarmIntent = Intent(this, AlarmReceiver::class.java)
         setContentView(binding.root)
-
+        mainContext = applicationContext
         initBottomNavigation()
         initOutdoorData()
         initScholarshipData()
-        initAlarm()
-
     }
-
-    private fun initAlarm() {
-
-//        val tempdata = scholarshipDataList[0]
-//        tempdata.신청시작 = "2022-05-23"
-//        tempdata.신청마감 = "2022-05-24"
-//        tempdata.번호 = 994
-//        scholarshipDBHelper.insertData(tempdata)
-        val temps = "-09-00-0"
-        //scholarshipDBHelper.setAllFavoriteAlarm()
-        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        val alarmable = scholarshipDBHelper.getAlarmableContents()
-        var flag = false
-        var id = -1;
-        for (alarmableContents in alarmable) {
-            var contentString = ""
-            var DDay = DBParser.calculateDateBetween(
-                SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(
-                    System.currentTimeMillis()
-                ).toString(), alarmableContents.신청시작
-            )
-            if (DDay >= 0) {
-                //Toast.makeText(this, DDay.toString(), Toast.LENGTH_SHORT).show()
-                contentString = contentString.plus("신청시작 D-Day")
-                // contentString = contentString.plus(DDay.toString())
-            } else {
-                DDay = DBParser.calculateDateBetween(
-                    SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(
-                        System.currentTimeMillis()
-                    ).toString(), alarmableContents.신청마감
-                )
-                if (DDay >= 0) {
-                    //Toast.makeText(this, DDay.toString(), Toast.LENGTH_SHORT).show()
-                    contentString = contentString.plus("신청마감 D-1")
-                    //contentString = contentString.plus(DDay.toString())
-                    flag = true
-                } else {
-                    continue
-                }
-            }
-            val intent = Intent(this, AlarmReceiver::class.java)
-            intent.putExtra("title", alarmableContents.상품명)
-            intent.putExtra("contents", contentString.plus(alarmableContents.운영기관명))
-            id += 1
-            val pendingIntent = PendingIntent.getBroadcast(
-                this, AlarmReceiver.NOTIFICATION_ID.plus(id), intent,
-                PendingIntent.FLAG_ONE_SHOT
-            )
-            var triggerTime: Long = 0
-            if (!flag) {
-                triggerTime = (SimpleDateFormat(
-                    "yyyy-MM-dd-HH-mm-ss",
-                    Locale.KOREA
-                ).parse(alarmableContents.신청시작.plus(temps).plus(id)).time)
-            } else {
-                triggerTime = (
-                        SimpleDateFormat(
-                            "yyyy-MM-dd-HH-mm-ss",
-                            Locale.KOREA
-                        ).parse(alarmableContents.신청마감.plus(temps).plus(id)).time
-                                - (3600 * 24 * 1000).toLong())
-            }
-            Toast.makeText(
-                this, SimpleDateFormat(
-                    "yyyy-MM-dd-HH-mm-ss",
-                    Locale.KOREA
-                ).format(triggerTime).toString(), Toast.LENGTH_SHORT
-            ).show()
-            alarmManager.cancel(pendingIntent)
-            if (triggerTime > 0) {
-                alarmManager.set(
-                    AlarmManager.RTC_WAKEUP,
-                    triggerTime,
-                    pendingIntent
-                )
-            }
-        }
-        // alarmManager.cancel(pendingIntent)
-    }
+//    private fun initAlarm() {
+//
+////        val tempdata = scholarshipDataList[0]
+////        tempdata.신청시작 = "2022-05-23"
+////        tempdata.신청마감 = "2022-05-24"
+////        tempdata.번호 = 994
+////        scholarshipDBHelper.insertData(tempdata)
+//        val temps = "-09-00-0"
+//        //scholarshipDBHelper.setAllFavoriteAlarm()
+//        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+//        val alarmable = scholarshipDBHelper.getAlarmableContents()
+//        var flag = false
+//        var id = -1;
+//        for (alarmableContents in alarmable) {
+//            var contentString = ""
+//            var DDay = DBParser.calculateDateBetween(SimpleDateFormat("yyyy-MM-dd",Locale.KOREA).format(
+//                System.currentTimeMillis()).toString(), alarmableContents.신청시작)
+//            if(DDay >= 0)
+//            {
+//                //Toast.makeText(this, DDay.toString(), Toast.LENGTH_SHORT).show()
+//                contentString = contentString.plus("신청시작 D-Day")
+//                // contentString = contentString.plus(DDay.toString())
+//            }
+//            else {
+//                DDay = DBParser.calculateDateBetween(SimpleDateFormat("yyyy-MM-dd",Locale.KOREA).format(
+//                    System.currentTimeMillis()).toString(), alarmableContents.신청마감)
+//                if (DDay >= 0) {
+//                    //Toast.makeText(this, DDay.toString(), Toast.LENGTH_SHORT).show()
+//                    contentString = contentString.plus("신청마감 D-1")
+//                    //contentString = contentString.plus(DDay.toString())
+//                    flag = true
+//                }
+//                else {
+//                    continue
+//                }
+//            }
+//            val intent = Intent(this, AlarmReceiver::class.java)
+//            intent.putExtra("title", alarmableContents.상품명)
+//            intent.putExtra("contents", contentString.plus(alarmableContents.운영기관명))
+//            id += 1
+//            val pendingIntent = PendingIntent.getBroadcast(
+//                this, AlarmReceiver.NOTIFICATION_ID.plus(id), intent,
+//                PendingIntent.FLAG_ONE_SHOT
+//            )
+//            var triggerTime :Long= 0
+//            if(!flag) {
+//                triggerTime = (SimpleDateFormat(
+//                    "yyyy-MM-dd-HH-mm-ss",
+//                    Locale.KOREA
+//                ).parse(alarmableContents.신청시작.plus(temps).plus(id)).time)
+//            }
+//            else {
+//                triggerTime = (
+//                        SimpleDateFormat(
+//                            "yyyy-MM-dd-HH-mm-ss",
+//                            Locale.KOREA
+//                        ).parse(alarmableContents.신청마감.plus(temps).plus(id)).time
+//                                -(3600*24*1000).toLong())
+//            }
+//            Toast.makeText(this, SimpleDateFormat(
+//                "yyyy-MM-dd-HH-mm-ss",
+//                Locale.KOREA
+//            ).format(triggerTime).toString(), Toast.LENGTH_SHORT).show()
+//            alarmManager.cancel(pendingIntent)
+//            if(triggerTime > 0) {
+//                alarmManager.set(
+//                    AlarmManager.RTC_WAKEUP,
+//                    triggerTime,
+//                    pendingIntent
+//                )
+//            }
+//        }
+//        // alarmManager.cancel(pendingIntent)
+//    }
 
     private fun initBottomNavigation() {
         supportFragmentManager.beginTransaction()
@@ -160,7 +161,7 @@ class MainActivity : AppCompatActivity() {
         val read = CSVReader(reader)
         for (scholarship in read) {
             val date = ScholarshipDataParser().stringToDate(scholarship[14]) ?: continue
-            if (date.end.before(ScholarshipDataParser.dateFormat.parse("2022-05-11")))
+            if (date.end.before(ScholarshipDataParser.dateFormat.parse("2022-06-04")))
                 continue
             scholarshipDataList.add(
                 ScholarshipData(
