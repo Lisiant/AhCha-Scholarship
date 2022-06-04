@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ahchascholarship.alarmhelper.AlarmRegisterHelper
 import com.example.ahchascholarship.databinding.FragmentScholarshipBinding
 
 class ScholarshipFragment : Fragment() {
@@ -67,7 +68,7 @@ class ScholarshipFragment : Fragment() {
                 scholarshipData.favorite = !scholarshipData.favorite
                 db.setFavorite(scholarshipData.번호, scholarshipData.favorite)
                 scholarshipRVAdapter.notifyDataSetChanged()
-
+                AlarmRegisterHelper().setAlarm(scholarshipData.favorite, scholarshipData)
             }
         })
 
