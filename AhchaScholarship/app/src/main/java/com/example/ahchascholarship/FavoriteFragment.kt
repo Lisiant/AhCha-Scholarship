@@ -1,17 +1,25 @@
 package com.example.ahchascholarship
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.*
+import com.example.ahchascholarship.alarmhelper.AlarmRegisterHelper
 import com.example.ahchascholarship.databinding.FragmentFavoriteBinding
 import com.example.myapplication.FavoriteAdapter
 import me.relex.circleindicator.CircleIndicator2
+import java.net.URLEncoder
 
 
 class FavoriteFragment : Fragment() {
+    val favoriteAlarmHelper = AlarmRegisterHelper()
     lateinit var favoriteAdapter:FavoriteAdapter
     lateinit var db:ScholarshipDBHelper
     lateinit var indicator : CircleIndicator2
@@ -26,6 +34,10 @@ class FavoriteFragment : Fragment() {
     ): View? {
         binding = FragmentFavoriteBinding.inflate(layoutInflater,container,false)
         return binding!!.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,9 +58,43 @@ class FavoriteFragment : Fragment() {
         binding!!.favoriteRecyclerView.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
         favoriteAdapter = FavoriteAdapter(data)
         favoriteAdapter.itemClickListener = object : FavoriteAdapter.OnItemClickListener{
-            override fun OnItemClick(data: ScholarshipData, position: Int) {
-                db.updateFavorite(data)
+            override fun favoriteClick(data: ScholarshipData, position: Int) {
+
+                data.favorite = !data.favorite
+                if(data.favorite){
+                    db.setFavorite(data.번호,true)
+                    data.alarmCheck = data.favorite
+                    favoriteAlarmHelper.setAlarm(true, data)
+                    Toast.makeText(MainActivity.mainContext, "즐겨찾기에 추가 되었습니다.", Toast.LENGTH_SHORT).show()
+                }else{
+                    db.setFavorite(data.번호,false)
+                    data.alarmCheck = data.favorite
+                    favoriteAlarmHelper.setAlarm(false, data)
+                    Toast.makeText(MainActivity.mainContext, "즐겨찾기에 해제 되었습니다.", Toast.LENGTH_SHORT).show()
+                }
                 favoriteAdapter.notifyItemChanged(position)
+            }
+
+            override fun alarmClick(data: ScholarshipData, position: Int) {
+                db.updateAlarm(data)
+                if(data.favorite) {
+                    data.alarmCheck = !data.alarmCheck
+                    if (data.alarmCheck) {
+                        favoriteAlarmHelper.setAlarm(true, data)
+                        Toast.makeText(MainActivity.mainContext, "알림이 설정 되었습니다.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        favoriteAlarmHelper.setAlarm(false, data)
+                        Toast.makeText(MainActivity.mainContext, "알림이 해제 되었습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                favoriteAdapter.notifyItemChanged(position)
+            }
+
+            override fun siteClick(data: ScholarshipData, position: Int) {
+                val strData = URLEncoder.encode(data.운영기관명, Charsets.UTF_8.toString())
+                val uri = "https://www.google.com/search?q=$strData"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                startActivity(intent)
             }
         }
         binding!!.favoriteRecyclerView.adapter = favoriteAdapter
