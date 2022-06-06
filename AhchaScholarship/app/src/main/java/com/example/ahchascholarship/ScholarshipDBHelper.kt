@@ -570,7 +570,7 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 	fun updateFavorite(data : ScholarshipData):Boolean{
 		val sno = data.번호.toString()
 		val selected = data.favorite
-		val db = readableDatabase
+		val db = writableDatabase
 		val strSql = "select * from $TABLE_NAME_MAIN where ${SNO} = $sno"
 		val cursor = db.rawQuery(strSql,null)
 		val flag =  cursor.count!=0
@@ -582,6 +582,30 @@ class ScholarshipDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB
 			}
 			else{
 				values.put(FAVORITE,1)
+			}
+
+			db.update(TABLE_NAME_MAIN,values,"${SNO}=?", arrayOf(sno))
+		}
+		cursor.close()
+		db.close()
+		return flag
+	}
+
+	fun updateAlarm(data : ScholarshipData):Boolean{
+		val sno = data.번호.toString()
+		val alarmCheck = data.alarmCheck
+		val db = writableDatabase
+		val strSql = "select * from $TABLE_NAME_MAIN where ${SNO} = $sno"
+		val cursor = db.rawQuery(strSql,null)
+		val flag =  cursor.count!=0
+		if(flag){
+			cursor.moveToFirst()
+			val values = ContentValues()
+			if(alarmCheck){
+				values.put(ALARMCHECK,0)
+			}
+			else{
+				values.put(ALARMCHECK,1)
 			}
 
 			db.update(TABLE_NAME_MAIN,values,"${SNO}=?", arrayOf(sno))
