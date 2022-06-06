@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -19,6 +20,9 @@ class ScholarshipFragment : Fragment() {
     lateinit var binding: FragmentScholarshipBinding
     lateinit var db: ScholarshipDBHelper
     var scholarshipDataList = ArrayList<ScholarshipData>()
+//    companion object{
+//        var prevBitArray = intArrayOf(0,0,0,0,0,0)
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,15 +40,11 @@ class ScholarshipFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        /*
-        * MainActivity에서 bundle로 받은 bitArray를 NULL check 한다.
-        * bitArray == NULL이면 scholarshipDataList = db.getAllRecord()
-        * 아니면 scholarshipDataList = catSelector로 받아온 ArrayList
-        * 이 scholarshipDataList를 어댑터에 연결하면 원하는 내역의 데이터가 출력됨
-        * */
-
         val bitArray = arguments?.getIntArray("filter")
+//        if (bitArray != null)
+//            prevBitArray = bitArray
+
+//        scholarshipDataList = db.catSelector(prevBitArray[0], prevBitArray[1],prevBitArray[2],prevBitArray[3],prevBitArray[4],prevBitArray[5])
         scholarshipDataList = if (bitArray != null){
             db.catSelector(bitArray[0], bitArray[1],bitArray[2],bitArray[3],bitArray[4],bitArray[5])
         }else{
@@ -78,7 +78,6 @@ class ScholarshipFragment : Fragment() {
         }
 
     }
-
 
 
 }

@@ -14,6 +14,10 @@ class OutdoorFragment : Fragment() {
     lateinit var db : OutdoorDBHelper
     var outdoorDataList = ArrayList<OutdoorActivityData>()
 
+//    companion object {
+//        var prevBitArray = intArrayOf(0,0,0)
+//    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         db = OutdoorDBHelper(context)
@@ -32,6 +36,11 @@ class OutdoorFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val bitArray = arguments?.getIntArray("filter")
+//        if (bitArray != null)
+//            prevBitArray = bitArray
+
+//        outdoorDataList = db.catSelector(prevBitArray[0], prevBitArray[1], prevBitArray[2])
+
         outdoorDataList = if (bitArray != null){
             db.catSelector(bitArray[0], bitArray[1],bitArray[2])
         }else{
