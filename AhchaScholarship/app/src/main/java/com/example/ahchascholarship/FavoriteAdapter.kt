@@ -11,14 +11,33 @@ import com.example.ahchascholarship.R
 import com.example.ahchascholarship.ScholarshipData
 import com.example.ahchascholarship.ScholarshipDataParser
 import com.example.ahchascholarship.databinding.FavoriteBinding
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FavoriteAdapter(val items:ArrayList<ScholarshipData>) :RecyclerView.Adapter<FavoriteAdapter.ViewHolder>(){
     interface OnItemClickListener{
-        fun OnItemClick(data: ScholarshipData, position: Int){
+        fun favoriteClick(data: ScholarshipData, position: Int){
+        }
+        fun alarmClick(data: ScholarshipData, position: Int){
+
+        }
+        fun siteClick(data: ScholarshipData, position: Int){
+
         }
     }
 
+    private fun getDday(data: ScholarshipData): Int {
+        val ret = parser.calculateDateBetween(
+            SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(
+                System.currentTimeMillis()
+            ).toString(), data.신청마감
+        )
 
+        return ret.toInt()
+    }
+
+    val parser = ScholarshipDataParser()
     var itemClickListener:OnItemClickListener?=null
 
     inner class ViewHolder(val binding:FavoriteBinding) : RecyclerView.ViewHolder(binding.root){
@@ -46,9 +65,17 @@ class FavoriteAdapter(val items:ArrayList<ScholarshipData>) :RecyclerView.Adapte
 
         init {
 
-            binding.favoriteBottomFavoriteIv.setOnClickListener {
-                itemClickListener?.OnItemClick(items[adapterPosition],adapterPosition)
+            binding.favoriteFavoriteBtn.setOnClickListener {
+                itemClickListener?.favoriteClick(items[adapterPosition],adapterPosition)
             }
+            binding.favoriteAlarmBtn.setOnClickListener {
+                itemClickListener?.alarmClick(items[adapterPosition],adapterPosition)
+            }
+            binding.favoriteSiteBtn.setOnClickListener {
+                itemClickListener?.siteClick(items[adapterPosition],adapterPosition)
+            }
+
+
         }
     }
 
@@ -58,31 +85,61 @@ class FavoriteAdapter(val items:ArrayList<ScholarshipData>) :RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        holder.binding.favoriteStr1.text = items[position].번호.toString()
-//        holder.binding.favoriteStr2.text = items[position].운영기관명
-//        holder.binding.favoriteStr3.text = items[position].상품명
-//        holder.binding.favoriteStr4.text = ScholarshipDataParser().decodeFCat(items[position].운영기관구분)
-//        holder.binding.favoriteStr5.text = ScholarshipDataParser().decodeSCat1(items[position].상품구분)
-//        holder.binding.favoriteStr6.text = ScholarshipDataParser().decodeSCat2(items[position].학자금유형구분)
-//        holder.binding.favoriteStr7.text = ScholarshipDataParser().decodeSchoolCat(items[position].대학구분).toString()
-//        holder.binding.favoriteStr8.text = ScholarshipDataParser().decodeYear(items[position].학년구분).toString()
-//        holder.binding.favoriteStr9.text = ScholarshipDataParser().decodeDepartment(items[position].학과구분).toString()
-//        holder.binding.favoriteStr10.text = items[position].성적기준
-//        holder.binding.favoriteStr11.text = items[position].소득기준
-//        holder.binding.favoriteStr12.text = items[position].지원금액
-//        holder.binding.favoriteStr13.text = items[position].특정자격
-//        holder.binding.favoriteStr14.text = items[position].지역거주여부
-//        holder.binding.favoriteStr15.text = items[position].신청시작
-//        holder.binding.favoriteStr16.text = items[position].신청마감
-//        holder.binding.favoriteStr17.text = items[position].선발방법
-//        holder.binding.favoriteStr18.text = items[position].선발인원
-//        holder.binding.favoriteStr19.text = items[position].자격제한
-//        holder.binding.favoriteStr20.text = items[position].추천필요여부
-//        holder.binding.favoriteStr21.text = items[position].제출서류
+        val applyTime = "${items[position].신청시작} ~ ${items[position].신청마감}"
+        val dday = getDday(items[position])
+        val yearDivision = parser.decodeYear(items[position].학년구분)
+        val departmentDivision = parser.decodeDepartment(items[position].학과구분)
+        holder.binding.apply{
+            favoriteNameTv.text = "[${items[position].운영기관명} ${items[position].상품명}]"
+            favoriteScholarshipDivisionTv.text = parser.decodeSCat1(items[position].상품구분)
+            favoriteProductDivisionTv.text = parser.decodeSCat2(items[position].상품구분)
+
+            if (yearDivision.isEmpty()) {
+                favoriteYearDivisionTv.text = "-"
+            } else {
+                favoriteYearDivisionTv.text = yearDivision.toString()
+            }
+
+            if (departmentDivision.isEmpty()) {
+                favoriteDepartmentDivisionTv.text = "-"
+            } else {
+                favoriteDepartmentDivisionTv.text = departmentDivision.toString()
+            }
+
+            favoriteGradeTv.text = items[position].성적기준
+            favoriteIncomeTv.text = items[position].소득기준
+            favoriteMoneyTv.text = items[position].지원금액
+            favoriteQualificationTv.text = items[position].특정자격
+            favoriteLocalScholarshipTv.text = items[position].지역거주여부
+            favoriteApplyTimeTv.text = applyTime
+            favoriteSelectionTv.text = items[position].선발방법
+            favoriteSelectionNumberTv.text = items[position].선발인원
+            favoriteLimitTv.text = items[position].자격제한
+            favoriteRecommendTv.text = items[position].추천필요여부
+            favoriteApplicationTv.text = items[position].제출서류
 
 
+            if (dday >= 0) {
+                favoriteDdayTv.text = "D-$dday"
+                favoriteDdayTv.setBackgroundResource(R.drawable.dday_textview_background_radius)
+            } else {
+                favoriteDdayTv.text = "D+${-dday}"
+                favoriteDdayTv.setBackgroundResource(R.drawable.dday_textview_background_off_radius)
+            }
 
-        //holder.binding.meaningView.text = items[position].meaning
+            if (items[position].favorite) {
+                favoriteBottomFavoriteIv.setImageResource(R.drawable.ic_baseline_star_24)
+            } else {
+                favoriteBottomFavoriteIv.setImageResource(R.drawable.ic_baseline_star_border_24)
+            }
+
+            if (items[position].alarmCheck) {
+                favoriteBottomAlarmIv.setImageResource(R.drawable.ic_baseline_alarm_on_24)
+            } else {
+                favoriteBottomAlarmIv.setImageResource(R.drawable.ic_baseline_alarm_off_24)
+            }
+        }
+
     }
 
     override fun getItemCount(): Int {
