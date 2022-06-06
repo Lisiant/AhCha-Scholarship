@@ -253,7 +253,7 @@ class MainActivity : AppCompatActivity() {
                 })
                 .commitAllowingStateLoss()
 
-            binding.mainBnv.selectedItemId = R.id.scholarshipFragment
+//            binding.mainBnv.selectedItemId = R.id.scholarshipFragment
         }
 
         val bitArray2 = intent.getIntArrayExtra("filtered_outdoor")
@@ -266,7 +266,7 @@ class MainActivity : AppCompatActivity() {
                 })
                 .commitAllowingStateLoss()
 
-            binding.mainBnv.selectedItemId = R.id.outdoorFragment
+//            binding.mainBnv.selectedItemId = R.id.outdoorFragment
         }
     }
 }
