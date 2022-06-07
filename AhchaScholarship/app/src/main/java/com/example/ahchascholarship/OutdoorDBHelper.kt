@@ -111,7 +111,7 @@ class OutdoorDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB_NAM
         return flag
     }
 
-    fun deleteScholarship(sno: String): Boolean {
+    fun deleteOutdoorData(sno: String): Boolean {
         val strsql = "select * from ${TABLE_NAME_MAIN} where ${SNO} = '$sno'"
         val db = readableDatabase
         val cursor = db.rawQuery(strsql, null)
@@ -125,7 +125,7 @@ class OutdoorDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB_NAM
         return flag
     }
 
-    fun findScholarship(name: String): ArrayList<OutdoorActivityData> { // 특정 문자열로 시작하는 제품들 나열
+    fun findOutdoorData(name: String): ArrayList<OutdoorActivityData> { // 특정 문자열로 시작하는 제품들 나열
         val strsql = "select * from ${TABLE_NAME_MAIN} where ${S_NAME} like '$name%'"
         val db = readableDatabase
         val cursor = db.rawQuery(strsql, null)

@@ -214,7 +214,6 @@ class MainActivity : AppCompatActivity() {
         for (outdoor in read) {
             val startDate = OutdoorDataParser().stringToDate(outdoor[6])
             val endDate = OutdoorDataParser().stringToDate(outdoor[7]) ?: continue
-            if (endDate.before(OutdoorDataParser.dateFormat.parse("2022-05-27"))) {
                 outdoorActivityDataList.add(
                     OutdoorActivityData(
                         outdoor[0].removePrefix(" - ").trim().replace(",", "").toInt(),
@@ -229,7 +228,6 @@ class MainActivity : AppCompatActivity() {
                         outdoor[9].removePrefix(" - ").trim(),
                     )
                 )
-            }
         }
         read.close()
         reader.close()
