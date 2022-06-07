@@ -76,8 +76,8 @@ class FavoriteFragment : Fragment() {
             }
 
             override fun alarmClick(data: ScholarshipData, position: Int) {
-                db.updateAlarm(data)
                 if(data.favorite) {
+                    db.updateAlarm(data)
                     data.alarmCheck = !data.alarmCheck
                     if (data.alarmCheck) {
                         favoriteAlarmHelper.setAlarm(true, data)

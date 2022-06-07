@@ -41,27 +41,6 @@ class FavoriteAdapter(val items:ArrayList<ScholarshipData>) :RecyclerView.Adapte
     var itemClickListener:OnItemClickListener?=null
 
     inner class ViewHolder(val binding:FavoriteBinding) : RecyclerView.ViewHolder(binding.root){
-//        val str1 = itemView.findViewById<TextView>(R.id.favoriteStr1)
-//        val str2 = itemView.findViewById<TextView>(R.id.favoriteStr2)
-//        val str3 = itemView.findViewById<TextView>(R.id.favoriteStr3)
-//        val str4 = itemView.findViewById<TextView>(R.id.favoriteStr4)
-//        val str5 = itemView.findViewById<TextView>(R.id.favoriteStr5)
-//        val str6 = itemView.findViewById<TextView>(R.id.favoriteStr6)
-//        val str7 = itemView.findViewById<TextView>(R.id.favoriteStr7)
-//        val str8 = itemView.findViewById<TextView>(R.id.favoriteStr8)
-//        val str9 = itemView.findViewById<TextView>(R.id.favoriteStr9)
-//        val str10 = itemView.findViewById<TextView>(R.id.favoriteStr10)
-//        val str11 = itemView.findViewById<TextView>(R.id.favoriteStr11)
-//        val str12 = itemView.findViewById<TextView>(R.id.favoriteStr12)
-//        val str13 = itemView.findViewById<TextView>(R.id.favoriteStr13)
-//        val str14 = itemView.findViewById<TextView>(R.id.favoriteStr14)
-//        val str15 = itemView.findViewById<TextView>(R.id.favoriteStr15)
-//        val str16 = itemView.findViewById<TextView>(R.id.favoriteStr16)
-//        val str17 = itemView.findViewById<TextView>(R.id.favoriteStr17)
-//        val str18 = itemView.findViewById<TextView>(R.id.favoriteStr18)
-//        val str19 = itemView.findViewById<TextView>(R.id.favoriteStr19)
-//        val str20 = itemView.findViewById<TextView>(R.id.favoriteStr20)
-//        val str21 = itemView.findViewById<TextView>(R.id.favoriteStr21)
 
         init {
 
@@ -122,7 +101,8 @@ class FavoriteAdapter(val items:ArrayList<ScholarshipData>) :RecyclerView.Adapte
             if (dday >= 0) {
                 favoriteDdayTv.text = "D-$dday"
                 favoriteDdayTv.setBackgroundResource(R.drawable.dday_textview_background_radius)
-            } else {
+
+            }else{
                 favoriteDdayTv.text = "D+${-dday}"
                 favoriteDdayTv.setBackgroundResource(R.drawable.dday_textview_background_off_radius)
             }
