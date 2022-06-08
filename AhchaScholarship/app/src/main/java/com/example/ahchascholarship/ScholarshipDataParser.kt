@@ -11,6 +11,7 @@ class ScholarshipDataParser {
 	companion object {
 
 		val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
+		val dateFormatNew = SimpleDateFormat("yyyyMMdd", Locale.KOREA)
 		val DEPT_8: String = "제한없음"
 		val DEPT_7: String = "공학계열"
 		val DEPT_6: String = "교육계열"
@@ -78,15 +79,15 @@ class ScholarshipDataParser {
 		if (splitData.size < 2)
 			return null
 		try {
-			if (splitData[1].trim().split("-")[0].trim().toInt() < 2022)
+			if (splitData[1].trim().toInt() < 20220000)
 				return null
 		} catch (e: Exception) {
 			return null
 		}
 		try {
 			ret = StartEndDate(
-				dateFormat.parse(splitData[0].trim().removePrefix("-").trim()),
-				dateFormat.parse(splitData[1].trim())
+				dateFormatNew.parse(splitData[0].trim()),
+				dateFormatNew.parse(splitData[1].trim())
 			)
 		} catch (e: ParseException) {
 			return null
