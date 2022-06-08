@@ -18,6 +18,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -39,10 +40,10 @@ class MainActivity : AppCompatActivity() {
         alarmManager = getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
         alarmIntent = Intent(this, AlarmReceiver::class.java)
         setContentView(binding.root)
+        initScholarshipData()
         mainContext = applicationContext
         initBottomNavigation()
         initOutdoorData()
-        initScholarshipData()
     }
 //    private fun initAlarm() {
 //
