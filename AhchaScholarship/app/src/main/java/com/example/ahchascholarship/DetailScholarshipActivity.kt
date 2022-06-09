@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.example.ahchascholarship.alarmhelper.AlarmRegisterHelper
 import com.example.ahchascholarship.databinding.ActivityDetailScholarshipBinding
 import java.net.URLEncoder
 import java.nio.charset.Charset
@@ -30,9 +31,9 @@ class DetailScholarshipActivity : AppCompatActivity() {
     private fun initDetailScholarship() {
         val sno = intent.getIntExtra("sno", -1)
         db = ScholarshipDBHelper(this)
+        scholarshipData = db.findScholarshipBySno(sno)
 
         binding.apply {
-            scholarshipData = db.findScholarshipBySno(sno)
             val name = "[${scholarshipData.운영기관명}] ${scholarshipData.상품명}"
             val applyTime = "${scholarshipData.신청시작} ~ ${scholarshipData.신청마감}"
             val dday = getDday(scholarshipData)
@@ -101,6 +102,8 @@ class DetailScholarshipActivity : AppCompatActivity() {
 
         binding.detailBottomFavoriteCl.setOnClickListener {
             scholarshipData.favorite = !scholarshipData.favorite
+            scholarshipData.alarmCheck = scholarshipData.favorite
+            AlarmRegisterHelper().setAlarm(scholarshipData.favorite, scholarshipData)
 
             if (scholarshipData.favorite) {
                 binding.detailBottomFavoriteIv.setImageResource(R.drawable.ic_baseline_star_24)
