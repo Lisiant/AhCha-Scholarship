@@ -28,75 +28,61 @@ class AlarmRegisterHelper:AppCompatActivity() {
 		super.onCreate(savedInstanceState, persistentState)
 	}
 	fun setAlarm(offOn:Boolean, alarmableContents:ScholarshipData) {
-		val temps = "-09-00-0"
+		val temps = "-09-00-"
 		var flag = false
-		var id = -1;
-		var contentString = ""
-		var DDay = DBParser.calculateDateBetween(
+//		var id = -1;
+		var contentStringS = ""
+		var contentStringE = ""
+		val DDayS = DBParser.calculateDateBetween(
 			SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(
 				System.currentTimeMillis()).toString(), alarmableContents.신청시작)
-			if(DDay >= 0)
-			{
-				//Toast.makeText(this, DDay.toString(), Toast.LENGTH_SHORT).show()
-				contentString = contentString.plus("신청시작 D-Day")
-				// contentString = contentString.plus(DDay.toString())
-			}
-			else {
-				DDay = DBParser.calculateDateBetween(
-					SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(
+		val DDayE = DBParser.calculateDateBetween(
+				SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(
 					System.currentTimeMillis()).toString(), alarmableContents.신청마감)
-				if (DDay >= 0) {
-					//Toast.makeText(this, DDay.toString(), Toast.LENGTH_SHORT).show()
-					contentString = contentString.plus("신청마감 D-1")
-					//contentString = contentString.plus(DDay.toString())
-					flag = true
-				}
-				else {
-					return
-				}
-			}
-		val intent = Intent(mainContext, AlarmReceiver::class.java)
-			intent.putExtra("title", alarmableContents.상품명)
-			intent.putExtra("contents", contentString.plus(alarmableContents.운영기관명))
-			id += 1
-			val pendingIntent = PendingIntent.getBroadcast(
-				mainContext, AlarmReceiver.NOTIFICATION_ID.plus(id), intent,
-				PendingIntent.FLAG_ONE_SHOT
-			)
-			var triggerTime :Long= 0
-			if(!flag) {
-				triggerTime = (SimpleDateFormat(
-					"yyyy-MM-dd-HH-mm-ss",
-					Locale.KOREA
-				).parse(alarmableContents.신청시작.plus(temps).plus(id)).time)
-			}
-			else {
-				triggerTime = (
-						SimpleDateFormat(
-							"yyyy-MM-dd-HH-mm-ss",
-							Locale.KOREA
-						).parse(alarmableContents.신청마감.plus(temps).plus(id)).time - (3600*24*1000).toLong())
-			}
-			Toast.makeText(
-				mainContext, SimpleDateFormat(
-				"yyyy-MM-dd-HH-mm-ss",
-				Locale.KOREA
-			).format(triggerTime).toString(), Toast.LENGTH_SHORT).show()
-			alarmManager.cancel(pendingIntent)
+		contentStringS = contentStringS.plus("신청시작 D-Day | ")
+		contentStringE = contentStringE.plus("신청마감 D-1 | ")
+		val intentS = Intent(mainContext, AlarmReceiver::class.java)
+		val intentE = Intent(mainContext, AlarmReceiver::class.java)
+		intentS.putExtra("title", alarmableContents.상품명)
+		intentS.putExtra("contents", contentStringS.plus(alarmableContents.운영기관명))
+		intentE.putExtra("title", alarmableContents.상품명)
+		intentE.putExtra("contents", contentStringE.plus(alarmableContents.운영기관명))
+		val pendingIntentS = PendingIntent.getBroadcast(
+			mainContext, AlarmReceiver.NOTIFICATION_ID+(alarmableContents.번호), intentS,
+			PendingIntent.FLAG_ONE_SHOT
+		)
+		val pendingIntentE = PendingIntent.getBroadcast(
+			mainContext, AlarmReceiver.NOTIFICATION_ID+(alarmableContents.번호*1000), intentE,
+			PendingIntent.FLAG_ONE_SHOT
+		)
+		val triggerTimeS :Long= SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.KOREA)
+			.parse(alarmableContents.신청시작.plus(temps).plus("00")).time
+		val triggerTimeE :Long= SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.KOREA)
+			.parse(alarmableContents.신청마감.plus(temps).plus("10")).time - (3600*24*1000).toLong()
+		Toast.makeText(
+			mainContext,DDayS.toString()+","+DDayE.toString()+alarmableContents.alarmCheck+alarmableContents.favorite, Toast.LENGTH_SHORT).show()
 		if(alarmableContents.alarmCheck && alarmableContents.favorite){
 
-				alarmManager.set(
+			if(DDayS >= 0) {
+				alarmManager.setExact(
 					AlarmManager.RTC_WAKEUP,
-					triggerTime,
-					pendingIntent
+					triggerTimeS,
+					pendingIntentS
 				)
-
+			}
+			if(DDayE >= 1) {
+				alarmManager.setExact(
+					AlarmManager.RTC_WAKEUP,
+					triggerTimeE,
+					pendingIntentE
+				)
+			}
 		}
 		else{
-			alarmManager.cancel(pendingIntent)
+			alarmManager.cancel(pendingIntentS)
+			alarmManager.cancel(pendingIntentE)
 			Toast.makeText(
-				mainContext, "off", Toast.LENGTH_SHORT).show()
+				mainContext, "AlarmOff", Toast.LENGTH_SHORT).show()
 		}
-		// alarmManager.cancel(pendingIntent)
 	}
 }
