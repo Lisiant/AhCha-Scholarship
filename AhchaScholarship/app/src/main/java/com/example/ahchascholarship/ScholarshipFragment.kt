@@ -20,9 +20,6 @@ class ScholarshipFragment : Fragment() {
     lateinit var binding: FragmentScholarshipBinding
     lateinit var db: ScholarshipDBHelper
     var scholarshipDataList = ArrayList<ScholarshipData>()
-//    companion object{
-//        var prevBitArray = intArrayOf(0,0,0,0,0,0)
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,10 +38,6 @@ class ScholarshipFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val bitArray = arguments?.getIntArray("filter")
-//        if (bitArray != null)
-//            prevBitArray = bitArray
-
-//        scholarshipDataList = db.catSelector(prevBitArray[0], prevBitArray[1],prevBitArray[2],prevBitArray[3],prevBitArray[4],prevBitArray[5])
         scholarshipDataList = if (bitArray != null){
             db.catSelector(bitArray[0], bitArray[1],bitArray[2],bitArray[3],bitArray[4],bitArray[5])
         }else{

@@ -305,12 +305,6 @@ class ScholarshipFilter : AppCompatActivity() {
         }
         db = ScholarshipDBHelper(this)
 
-
-        // 뒤로가기 버튼(화면에 구현한 보라색 버튼) 누르면 MainActivity로 intent를 보냄.
-        // 이 intent에는 bitArray가 들어있음.
-        // 핸드폰 기본 뒤로가기 버튼 누르면 반영이 안됨 -> 화면에 구현된 뒤로가기 버튼의 이름을 '저장' 등으로 변경해야할듯
-        // 필터에서 다중선택 안되게 하면 좋을텐데 그건 시간상 못할듯
-
         binding.button.setOnClickListener{
             val bitArray = intArrayOf(fCatBit,sCat1Bit, sCat2Bit, schoolCatBit, yearBit, departmentBit)
             val intent = Intent(this, MainActivity::class.java)

@@ -63,9 +63,9 @@ class OutdoorDBHelper (val context: Context?) : SQLiteOpenHelper(context, DB_NAM
         val SNO = "SNO"
         val S_NAME = "활동이름"
         val FOUNDATION = "운영기관명"
-        val FOUNDATION_CAT = "FOUNDATIONCAT" // 복호화 함수: ScholarshipDataParser().decodeFCat
-        val S_CAT = "활동종류" // 복호화 함수: ScholarshipDataParser().decodeSCat
-        val DEPARTMENT = "활동내용계열" // 복호화 함수: ScholarshipDataParser().decodeDepartment
+        val FOUNDATION_CAT = "FOUNDATIONCAT" // 복호화 함수: OutdoorDataParser().decodeFCat
+        val S_CAT = "활동종류" // 복호화 함수: OutdoorDataParser().decodeSCat
+        val DEPARTMENT = "활동내용계열" // 복호화 함수: OutdoorDataParser().decodeDepartment
         val DATE_START = "신청시작"
         val DATE_END = "신청마감"
         val SITE_LINK = "사이트링크"

@@ -179,7 +179,7 @@ class OutdoorFilter : AppCompatActivity() {
         db = OutdoorDBHelper(this)
         binding.outdoorFilterBackBtn.setOnClickListener{
                 val bitArray = intArrayOf(fCatBit,sCatBit,departmentBit)
-                val intent = Intent(this, MainActivity::class.java)     //메인으로 이동하면 바텀네비게이션이 장학금을 가리키고 있음
+                val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("filtered_outdoor" , bitArray)
                 startActivity(intent)
         }
