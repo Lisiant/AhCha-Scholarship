@@ -59,6 +59,7 @@ class ScholarshipFragment : Fragment() {
 
             override fun clickFavorite(scholarshipData: ScholarshipData, position: Int) {
                 scholarshipData.favorite = !scholarshipData.favorite
+                scholarshipData.alarmCheck = scholarshipData.favorite
                 db.setFavorite(scholarshipData.번호, scholarshipData.favorite)
                 scholarshipRVAdapter.notifyDataSetChanged()
                 AlarmRegisterHelper().setAlarm(scholarshipData.favorite, scholarshipData)

@@ -59,8 +59,8 @@ class AlarmRegisterHelper:AppCompatActivity() {
 			.parse(alarmableContents.신청시작.plus(temps).plus("00")).time
 		val triggerTimeE :Long= SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.KOREA)
 			.parse(alarmableContents.신청마감.plus(temps).plus("10")).time - (3600*24*1000).toLong()
-		Toast.makeText(
-			mainContext,DDayS.toString()+","+DDayE.toString()+alarmableContents.alarmCheck+alarmableContents.favorite, Toast.LENGTH_SHORT).show()
+//		Toast.makeText(
+//			mainContext,DDayS.toString()+","+DDayE.toString()+alarmableContents.alarmCheck+alarmableContents.favorite, Toast.LENGTH_SHORT).show()
 		if(alarmableContents.alarmCheck && alarmableContents.favorite){
 
 			if(DDayS >= 0) {
@@ -76,13 +76,15 @@ class AlarmRegisterHelper:AppCompatActivity() {
 					triggerTimeE,
 					pendingIntentE
 				)
+//				Toast.makeText(
+//					mainContext, alarmableContents.상품명+"\nAlarm: On", Toast.LENGTH_SHORT).show()
 			}
 		}
 		else{
 			alarmManager.cancel(pendingIntentS)
 			alarmManager.cancel(pendingIntentE)
-			Toast.makeText(
-				mainContext, "AlarmOff", Toast.LENGTH_SHORT).show()
+//			Toast.makeText(
+//				mainContext, alarmableContents.상품명+"\nAlarm: Off", Toast.LENGTH_SHORT).show()
 		}
 	}
 }
