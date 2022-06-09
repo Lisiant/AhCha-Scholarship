@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.example.ahchascholarship.alarmhelper.AlarmRegisterHelper
 import com.example.ahchascholarship.databinding.ActivityDetailScholarshipBinding
 import java.net.URLEncoder
 import java.nio.charset.Charset
@@ -15,6 +16,7 @@ class DetailScholarshipActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetailScholarshipBinding
     lateinit var db: ScholarshipDBHelper
     lateinit var scholarshipData: ScholarshipData
+    val detailAlarmHelper = AlarmRegisterHelper()
     val parser = ScholarshipDataParser()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,6 +82,7 @@ class DetailScholarshipActivity : AppCompatActivity() {
             if (scholarshipData.favorite) {
                 detailBottomFavoriteIv.setImageResource(R.drawable.ic_baseline_star_24)
                 detailBottomFavoriteTv.text = "관심 장학금 해제"
+
             } else {
                 detailBottomFavoriteIv.setImageResource(R.drawable.ic_baseline_star_border_24)
                 detailBottomFavoriteTv.text = "관심 장학금 설정"
@@ -105,9 +108,13 @@ class DetailScholarshipActivity : AppCompatActivity() {
             if (scholarshipData.favorite) {
                 binding.detailBottomFavoriteIv.setImageResource(R.drawable.ic_baseline_star_24)
                 binding.detailBottomFavoriteTv.text = "관심 장학금 해제"
+                scholarshipData.alarmCheck = true
+                detailAlarmHelper.setAlarm(true, scholarshipData)
             }else{
                 binding.detailBottomFavoriteIv.setImageResource(R.drawable.ic_baseline_star_border_24)
                 binding.detailBottomFavoriteTv.text = "관심 장학금 설정"
+                scholarshipData.alarmCheck = false
+                detailAlarmHelper.setAlarm(false, scholarshipData)
             }
 
             db.setFavorite(sno, scholarshipData.favorite)
